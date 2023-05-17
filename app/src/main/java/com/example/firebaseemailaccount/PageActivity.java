@@ -23,20 +23,18 @@ public class PageActivity extends AppCompatActivity
         buttonview = findViewById(R.id.bottomNav);
         getSupportFragmentManager().beginTransaction().add(R.id.main_frame, new HomeActivity()).commit();
 
-// BottomNavigationView 선택 이벤트 처리
+        // BottomNavigationView 선택 이벤트 처리
         buttonview.setOnItemSelectedListener((NavigationBarView.OnItemSelectedListener) menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.home:
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new HomeActivity()).commit();
                     break;
                 case R.id.map:
-                    //getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new MapFragment()).commit();
-                    MapFragment mapFragment = new MapFragment();
-                    getSupportFragmentManager().beginTransaction().add(R.id.main_frame, mapFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new MapFragment()).commit();
                     break;
                 case R.id.community:
                     // getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new CommunityActivity()).commit();
-                    // 게시글 전체 목록 먼저 띄우도록 수정ㅛ
+                    // 게시글 전체 목록 먼저 띄우도록 수정
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new ListActivity()).commit();
                     break;
                 case R.id.diary:
@@ -49,6 +47,7 @@ public class PageActivity extends AppCompatActivity
             return true;
         });
     }
+
     // 화면 전환용 메서드
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();

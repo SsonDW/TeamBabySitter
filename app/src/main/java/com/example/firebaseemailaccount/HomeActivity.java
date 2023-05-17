@@ -19,7 +19,7 @@ public class HomeActivity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater , @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         Log.i(TAG,"onCreateView");
 
-        view=inflater.inflate(R.layout.activity_login,container,false);
+        view=inflater.inflate(R.layout.activity_home,container,false);
         return view;
     }
 }
