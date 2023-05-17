@@ -19,8 +19,7 @@ public class MyPageActivity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater , @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         Log.i(TAG,"onCreateView");
 
-        view=inflater.inflate(R.layout.activity_login,container,false);
+        view=inflater.inflate(R.layout.activity_mypage,container,false);
         return view;
     }
 }
-

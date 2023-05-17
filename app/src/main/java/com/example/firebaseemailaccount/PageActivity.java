@@ -30,13 +30,11 @@ public class PageActivity extends AppCompatActivity
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new HomeActivity()).commit();
                     break;
                 case R.id.map:
-                    //getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new MapFragment()).commit();
-                    MapFragment mapFragment = new MapFragment();
-                    getSupportFragmentManager().beginTransaction().add(R.id.main_frame, mapFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new MapFragment()).commit();
                     break;
                 case R.id.community:
                     // getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new CommunityActivity()).commit();
-                    // 게시글 전체 목록 먼저 띄우도록 수정ㅛ
+                    // 게시글 전체 목록 먼저 띄우도록 수정
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new ListActivity()).commit();
                     break;
                 case R.id.diary:
