@@ -8,15 +8,12 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-// import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -92,9 +89,9 @@ public class TimetableView extends LinearLayout {
         stickerColors = a.getResources().getStringArray(colorsId);
         startTime = a.getInt(R.styleable.TimetableView_start_time, DEFAULT_START_TIME);
         headerHighlightColor = a.getColor(R.styleable.TimetableView_header_highlight_color, getResources().getColor(R.color.default_header_highlight_color));
-        int highlightTypeValue = a.getInteger(R.styleable.TimetableView_header_highlight_type,0);
-        if(highlightTypeValue == 0) highlightMode = HighlightMode.COLOR;
-        else if(highlightTypeValue == 1) highlightMode = HighlightMode.IMAGE;
+        int highlightTypeValue = a.getInteger(R.styleable.TimetableView_header_highlight_type, 0);
+        if (highlightTypeValue == 0) highlightMode = HighlightMode.COLOR;
+        else if (highlightTypeValue == 1) highlightMode = HighlightMode.IMAGE;
         headerHighlightImageSize = a.getDimensionPixelSize(R.styleable.TimetableView_header_highlight_image_size, dp2Px(24));
         headerHighlightImage = a.getDrawable(R.styleable.TimetableView_header_highlight_image);
         a.recycle();
@@ -166,7 +163,7 @@ public class TimetableView extends LinearLayout {
             tv.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(stickerSelectedListener != null)
+                    if (stickerSelectedListener != null)
                         stickerSelectedListener.OnStickerSelected(count, schedules);
                 }
             });
@@ -220,7 +217,7 @@ public class TimetableView extends LinearLayout {
         setStickerColor();
     }
 
-    public void setHeaderHighlight(int idx) {
+   /* public void setHeaderHighlight(int idx) {
         if(idx < 0)return;
         TableRow row = (TableRow) tableHeader.getChildAt(0);
         View element = row.getChildAt(idx);
@@ -249,7 +246,7 @@ public class TimetableView extends LinearLayout {
             }
 
         }
-    }
+    }*/
 
     private void setStickerColor() {
         int size = stickers.size();
@@ -329,11 +326,11 @@ public class TimetableView extends LinearLayout {
         return param;
     }
 
-    private int calCellWidth(){
+    private int calCellWidth() {
         Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int cell_w = (size.x-getPaddingLeft() - getPaddingRight()- sideCellWidth) / (columnCount - 1);
+        int cell_w = (size.x - getPaddingLeft() - getPaddingRight() - sideCellWidth) / (columnCount - 1);
         return cell_w;
     }
 

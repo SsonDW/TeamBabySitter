@@ -57,7 +57,7 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
         loadBtn = view.findViewById(R.id.load_btn);
 
         timetable = view.findViewById(R.id.timetable);
-        timetable.setHeaderHighlight(2);
+        // timetable.setHeaderHighlight(2);
         initView();
     }
 
