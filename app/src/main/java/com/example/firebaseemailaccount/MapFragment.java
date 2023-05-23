@@ -1,10 +1,12 @@
 package com.example.firebaseemailaccount;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,6 +52,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_map, container, false);
+
+        Button myButton = rootView.findViewById(R.id.myButton);
+        myButton.setOnClickListener(v -> {
+            // 버튼을 클릭했을 때 처리할 로직 작성
+            // 새로운 화면으로의 전환 코드를 여기에 추가
+            // 예시로 다른 액티비티를 시작하는 Intent 사용
+            Intent intent = new Intent(getActivity(), ReviewActivity.class);
+            startActivity(intent);
+        });
+
 
         mapView = rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);

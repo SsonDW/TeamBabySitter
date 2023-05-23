@@ -55,6 +55,8 @@
             android:exported="true"/>
         <activity
             android:name=".EditActivity"/>
+        <activity android:name=".ReviewActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>
