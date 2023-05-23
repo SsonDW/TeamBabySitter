@@ -32,8 +32,12 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
     private Button clearBtn;
     private Button saveBtn;
     private Button loadBtn;
+    private Button timerButton;
 
     private TimetableView timetable;
+
+    public DiaryActivity() {
+    }
 
     @Nullable
     @Override
@@ -55,7 +59,7 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
         clearBtn = view.findViewById(R.id.clear_btn);
         saveBtn = view.findViewById(R.id.save_btn);
         loadBtn = view.findViewById(R.id.load_btn);
-
+        timerButton = view.findViewById(R.id.timer_btn);
         timetable = view.findViewById(R.id.timetable);
         // timetable.setHeaderHighlight(2);
         initView();
@@ -66,7 +70,7 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
         clearBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
         loadBtn.setOnClickListener(this);
-
+        timerButton.setOnClickListener(this);
         timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
             @Override
             public void OnStickerSelected(int idx, ArrayList<Schedule> schedules) {
@@ -78,16 +82,18 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
             }
         });
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.add_btn:
-                // Intent i = new Intent(this,EditActivity.class);
+                // Intent i = new Intent(this,EditActivity.class);yutytrewqazASXC DVFGB:"?BGHV CFXDSZ
                 // 수정
                 Intent i = new Intent(getContext(),EditActivity.class);
                 i.putExtra("mode",REQUEST_ADD);
                 startActivityForResult(i,REQUEST_ADD);
                 break;
+
             case R.id.clear_btn:
                 timetable.removeAll();
                 break;
@@ -97,8 +103,14 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
             case R.id.load_btn:
                 loadSavedData();
                 break;
+            case R.id.timer_btn:
+                Intent intent = new Intent(getContext(), TimerActivity.class);
+                startActivity(intent);
+
         }
+
     }
+
 
     // 에러 떠서 protected에서 public으로 수정해봄
     @Override

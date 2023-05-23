@@ -17,13 +17,19 @@ public class CommunityViewActivity extends Fragment {
     Call<Community_model> call;
     // CommunityActivity ca = new CommunityActivity();
     ListActivity la = new ListActivity();
-    int post_id;
+    static int post_id;
     TextView title_txt, content_txt, created_at_txt;
     Button comment_button, list_button;
 
     // 각각의 Fragment마다 Instance를 반환해 줄 메소드를 생성
     // Activity 하위의 모든 Fragment들이 newInstance() 메소드를 가지고 있어야 화면 전환이 가능
-    public static CommunityViewActivity newInstance() {
+    public static CommunityViewActivity newInstance(int id) {
+//        CommunityViewActivity fragment = new CommunityViewActivity();
+
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("id", id);
+//        fragment.setArguments(bundle);
+        post_id = id;
         return new CommunityViewActivity();
     }
 
@@ -43,7 +49,7 @@ public class CommunityViewActivity extends Fragment {
 
         // CommunityActivity에서 등록한 게시글의 id값 post_id로 받아온 것 그대로 사용
         // call = Retrofit_client.getApiService().community_detail_get(la.post_id); // 실패
-        call = Retrofit_client.getApiService().community_detail_get(1);
+        call = Retrofit_client.getApiService().community_detail_get(post_id);
         call.enqueue(new Callback<Community_model>() {
             //콜백 받는 부분
             @Override

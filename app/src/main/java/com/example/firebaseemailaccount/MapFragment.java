@@ -1,10 +1,12 @@
 package com.example.firebaseemailaccount;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,8 +29,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private NaverMap naverMap;
-    private Marker cityHallMarker;
-    private Marker sungnyemunMarker;
+    private Marker cityHallMarker; // 시청 마커
+    private Marker sungnyemunMarker; // 숭례문 마커
     private SlidingUpPanelLayout slidingUpPanelLayout;
     private TextView titleTextView;
     private TextView addressTextView;
@@ -51,6 +53,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_map, container, false);
 
+        Button myButton = rootView.findViewById(R.id.myButton);
+        myButton.setOnClickListener(v -> {
+            // 버튼을 클릭했을 때 처리할 로직 작성
+            // 새로운 화면으로의 전환 코드를 여기에 추가
+            // 예시로 다른 액티비티를 시작하는 Intent 사용
+            Intent intent = new Intent(getActivity(), ReviewActivity.class);
+            startActivity(intent);
+        });
+
         mapView = rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -58,10 +69,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         slidingUpPanelLayout = rootView.findViewById(R.id.slidingPanelLayout);
         titleTextView = rootView.findViewById(R.id.titleTextView);
         addressTextView = rootView.findViewById(R.id.addressTextView);
-        tablewareTextView = rootView.findViewById(R.id.tablewareTextView);
-        babyChairTextView = rootView.findViewById(R.id.babyChairTextView);
-        automaticDoorTextView = rootView.findViewById(R.id.automaticDoorsTextView);
-        nursingRoomTextView = rootView.findViewById(R.id.nursingRoomTextView);
+//        tablewareTextView = rootView.findViewById(R.id.tablewareTextView);
+//        babyChairTextView = rootView.findViewById(R.id.babyChairTextView);
+//        automaticDoorTextView = rootView.findViewById(R.id.automaticDoorsTextView);
+//        nursingRoomTextView = rootView.findViewById(R.id.nursingRoomTextView);
 
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -141,40 +152,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                         if (cityHallSnapshot.exists()) {
                                             title = String.valueOf(cityHallSnapshot.getValue());
                                         }
-                                        //주소
-                                        address = String.valueOf(dataSnapshot.child("CityHallAddress").getValue());
-                                        //아기식기
-                                        tableware = String.valueOf(dataSnapshot.child("BabyTableware").getValue());
-                                        if(tableware.equals(1)) {
-                                            tableware = "아기식기 있음";
-                                        }
-                                        else {
-                                            tableware = "아기식기 없음";
-                                        }
-                                        //아기의자
-                                        babychair = String.valueOf(dataSnapshot.child("BabyChair").getValue());
-                                        if(babychair.equals(1)) {
-                                            babychair = "아기의자 있음";
-                                        }
-                                        else {
-                                            babychair = "아기의자 없음";
-                                        }
-                                        //자동문
-                                        automaticdoor = String.valueOf(dataSnapshot.child("AutomaticDoors").getValue());
-                                        if(automaticdoor.equals(1)) {
-                                            automaticdoor = "자동문 있음";
-                                        }
-                                        else {
-                                            automaticdoor = "자동문 없음";
-                                        }
 
-                                        nursingroom = String.valueOf(dataSnapshot.child("NursingRoom").getValue());
-                                        if(nursingroom.equals(1)) {
-                                            nursingroom = "수유실 있음";
-                                        }
-                                        else {
-                                            nursingroom = "수유실 없음";
-                                        }
+                                        address = String.valueOf(dataSnapshot.child("CityHall").child("CityHallAddress").getValue());
+                                        tableware = String.valueOf(dataSnapshot.child("CityHall").child("BabyTableware").getValue());
+                                        babychair = String.valueOf(dataSnapshot.child("CityHall").child("BabyChair").getValue());
+                                        automaticdoor = String.valueOf(dataSnapshot.child("CityHall").child("AutomaticDoors").getValue());
+                                        nursingroom = String.valueOf(dataSnapshot.child("CityHall").child("NursingRoom").getValue());
 
                                     } else if (markerTag.equals("Sungnyemun") && marker.getPosition().latitude == sungnyemunLatitude && marker.getPosition().longitude == sungnyemunLongitude) {
                                         DataSnapshot sungnyemunSnapshot = dataSnapshot.child("Sungnyemun").child("name");
@@ -187,10 +170,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                     // 정보 표시
                                     titleTextView.setText(title);
                                     addressTextView.setText(address);
-                                    tablewareTextView.setText(tableware);
-                                    babyChairTextView.setText(babychair);
-                                    automaticDoorTextView.setText(automaticdoor);
-                                    nursingRoomTextView.setText(nursingroom);
+//                                    tablewareTextView.setText(tableware);
+//                                    babyChairTextView.setText(babychair);
+//                                    automaticDoorTextView.setText(automaticdoor);
+//                                    nursingRoomTextView.setText(nursingroom);
 
                                     // 슬라이딩 패널 열기
                                     //slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);

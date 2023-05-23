@@ -62,13 +62,18 @@ public class ListViewAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
-    public void addItem(String title, String content) {
+    public void addItem(int id, String title, String content) {
         ListViewItem item = new ListViewItem();
 
+        item.setItemId(id);
         item.setItemTitle(title);
         item.setItemContent(content);
 
         listViewItemList.add(item);
+
+        // list 호출 시 버벅거림 없도록
+        // 효과X.
+        // this.notifyDataSetChanged(); // list 호출 시 버벅거림 없도록
     }
 
 }

@@ -1,25 +1,100 @@
 package com.example.firebaseemailaccount;
 
-//사용자 계정 정보 모델 클래스
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
 public class UserAccount
 {
-    private String idToken;  //Firebase Uid (고유 토큰 정보)
-    private String emailId;  //이메일 아이디
-    private String password;  //비밀번호
+    @SerializedName("id")
+    @Expose
+    private int id;
 
-    public UserAccount() { } //파이어베이스 리얼타임데이터베이스를 쓸 때에는 모델 클래스를 이용해서 가지고와야 할 때 꼭 명시해줘야함
+    @SerializedName("email")
+    @Expose
+    private String email; // 필수
 
-    public String getIdToken(){ return idToken; }
+    @SerializedName("password")
+    @Expose
+    private String password; // 필수
 
-    public void setIdToken(String idToken) {this.idToken = idToken;}
+    @SerializedName("nickname")
+    @Expose
+    private String nickname; // 필수X
 
-    public String getEmailId() {return emailId;}
+    @SerializedName("baby_birthday")
+    @Expose
+    private String baby_birthday; // YYMMDD // 필수X
 
-    public void  setEmailId(String emailId) {this.emailId = emailId;}
+    @SerializedName("baby_gender")
+    @Expose
+    private String baby_gender; // 남아(m), 여아(f) // 필수X
 
-    public String getPassword() {return password;}
+    // 추가
+    @SerializedName("jwt")  // JSON 키 이름과 매핑
+    private String jwt;
 
-    public void setPassword(String password) {this.password = password;}
+    // 추가
+    public String getJwt() {
+        return jwt;
+    }
+
+    // Set 역할 수행
+    public UserAccount(String email, String password){
+        this.email = email;
+        this.password = password;
+    }
+
+    // 추가
+    public UserAccount(String email, String nickname, String baby_birthday, String baby_gender){
+        this.email = email;
+        this.nickname = nickname;
+        this.baby_birthday = baby_birthday;
+        this.baby_gender = baby_gender;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    //    public int getIdByEmail(String email){
+//        if(this.email == email) {
+//            return id;
+//        } else {
+//            return 0;
+//        }
+//    }
+    public String getEmail(){
+        return email;
+    }
+
+    public String getNickname(){
+        return nickname;
+    }
+
+    public String getBabyBirthday(){
+        return baby_birthday;
+    }
+
+    public String getBabyGender(){
+        return baby_gender;
+    }
 
 
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public void setNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void setBabyBirthday(String baby_birthday){
+        this.baby_birthday = baby_birthday;
+    }
+
+    public void setBabyGender(String baby_gender){
+        this.baby_gender = baby_gender;
+    }
 }

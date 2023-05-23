@@ -15,15 +15,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/back_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <com.naver.maps.map.MapView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.naver.maps.map.MapFragment" />
+            android:name="com.naver.maps.map.MapFragment"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -32,89 +31,111 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/iconImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_kitty"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_gravity="top"/>
+
         <TextView
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:textAppearance="?android:textAppearanceSmall"
             android:textColor="?android:attr/textColorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
-            android:padding="8dp"
-            android:text="" />
+            android:layout_gravity="center_horizontal"
+            android:text=""
+            app:layout_constraintStart_toEndOf="@+id/iconImageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/PhoneNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_horizontal"
+            android:text="전화번호"
+            app:layout_constraintStart_toEndOf="@+id/iconImageView"
+            app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+
+        <TextView
+            android:id="@+id/newTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="010-2459-2498"
+            app:layout_constraintBaseline_toBaselineOf="@+id/PhoneNumberTextView"
+            app:layout_constraintStart_toEndOf="@+id/PhoneNumberTextView" />
 
         <TextView
             android:id="@+id/addressTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
-            android:gravity="center_horizontal"
-            android:padding="8dp"
-            android:text="" />
+            app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
+            app:layout_constraintTop_toBottomOf="@+id/newTextView"
+            app:layout_constraintStart_toEndOf="@+id/iconImageView"
+            android:textAlignment="textStart"
+            android:text="주소" />
 
         <TextView
-            android:id="@+id/tablewareTextView"
+            android:id="@+id/ratingResultText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="평점"
+            android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
-            android:gravity="center_horizontal"
-            android:padding="8dp"
-            android:text="" />
+            app:layout_constraintTop_toBottomOf="@+id/iconImageView"
+            tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/babyChairTextView"
+        <RatingBar
+            android:id="@+id/ratingBarResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tablewareTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
-            android:gravity="center_horizontal"
-            android:padding="8dp"
-            android:text="" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#C11515"
+            android:numStars="5"
+            android:stepSize="1.0"
+            app:layout_constraintStart_toEndOf="@+id/ratingResultText"
+            app:layout_constraintTop_toBottomOf="@+id/ratingResultText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="39dp"
+            tools:layout_editor_absoluteY="180dp" />
 
-        <TextView
-            android:id="@+id/automaticDoorsTextView"
+        <Button
+            android:id="@+id/myButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/babyChairTextView"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"
-            android:gravity="center_horizontal"
-            android:padding="8dp"
-            android:text="" />
+            android:text="리뷰하기"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBarResult" />
 
-        <TextView
-            android:id="@+id/nursingRoomTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/automaticDoorsTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
-            android:gravity="center_horizontal"
-            android:padding="8dp"
-            android:text="" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
