@@ -11,7 +11,7 @@
         android:id="@+id/update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="63dp"
+        android:layout_marginTop="64dp"
         android:text="프로필 편집"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,12 +19,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="127dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="99dp"
-        android:layout_marginEnd="22dp"
-        app:layout_constraintEnd_toStartOf="@+id/baby_birthday_field"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="128dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/mypage" />
@@ -33,69 +31,68 @@
         android:id="@+id/baby_gender_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="11dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="아기성별"
-        app:layout_constraintEnd_toStartOf="@+id/baby_gender_view"
-        app:layout_constraintTop_toBottomOf="@+id/baby_birthday_field" />
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_field" />
 
     <TextView
         android:id="@+id/baby_birthday_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="11dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="아기생일"
-        app:layout_constraintEnd_toStartOf="@+id/baby_birthday_view"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/nickname_field" />
+        app:layout_constraintTop_toBottomOf="@+id/baby_gender_field" />
 
     <TextView
         android:id="@+id/nickname_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="140dp"
         android:text="닉네임"
-        app:layout_constraintStart_toStartOf="@+id/baby_birthday_field"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/nickname_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="24dp"
         android:text="닉네임을 정해주세요"
-        app:layout_constraintBottom_toTopOf="@+id/baby_birthday_view"
-        app:layout_constraintStart_toStartOf="@+id/baby_birthday_view" />
+        android:textAlignment="textStart"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nickname_field"
+        app:layout_constraintStart_toEndOf="@+id/nickname_field" />
 
     <TextView
         android:id="@+id/baby_birthday_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="13dp"
         android:text="아이의 생일을 입력하세요"
-        app:layout_constraintBaseline_toBaselineOf="@+id/baby_birthday_field"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/baby_birthday_field" />
+        android:textAlignment="textStart"
+        app:layout_constraintBaseline_toBaselineOf="@+id/baby_gender_field"
+        app:layout_constraintStart_toStartOf="@+id/nickname_view" />
 
     <TextView
         android:id="@+id/baby_gender_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="13dp"
         android:text="아이의 성별을 입력하세요"
-        app:layout_constraintBaseline_toBaselineOf="@+id/baby_gender_field"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textAlignment="textStart"
+        app:layout_constraintBaseline_toBaselineOf="@+id/baby_birthday_field"
+        app:layout_constraintStart_toStartOf="@+id/baby_birthday_view" />
 
     <Button
         android:id="@+id/logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="24dp"
         android:text="로그아웃"
-        app:layout_constraintStart_toStartOf="@+id/update_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/update_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

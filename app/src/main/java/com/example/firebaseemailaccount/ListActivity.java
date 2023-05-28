@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +28,7 @@ public class ListActivity extends Fragment {
     ListView listView;
     ListViewAdapter adapter;
     ListViewItem listViewitem;
-    Button reg_button;
+    Button reg_button, button1, button2, button3;
     String userid = "";
     Community_model cm;
     int i;
@@ -47,19 +45,20 @@ public class ListActivity extends Fragment {
         return new ListActivity();
     }
 
-    // ----------------------------------- 게시글 전체 list view -----------------------------------
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstaceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_list, null); // Fragment로 불러올 xml파일을 view로 가져옴
         adapter = new ListViewAdapter();
 
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setAdapter(adapter);
         reg_button = view.findViewById(R.id.reg_button);
+        button1 = view.findViewById(R.id.button1);
+        button2 = view.findViewById(R.id.button2);
+        button3 = view.findViewById(R.id.button3);
 
-        // for(i=1;i<=adapter.getCount();i++) { // addItem() 이후에 저장된 데이터들에 대한 개수를 반환해주기 때문에 이 위치에서 제대로 동작X
-        // 일단은 게시물 목록 중 특정 개수만 list up
-        // for(i=1;i<=result.getRowCount();i++) {
+
+        // ----------------------------------- 게시글 전체 list view -----------------------------------
         call = Retrofit_client.getApiService().community_detail_get(1);
         call.enqueue(new Callback<Community_model>() {
             @Override
@@ -98,8 +97,6 @@ public class ListActivity extends Fragment {
                 ListViewItem item = (ListViewItem) adapterView.getItemAtPosition(i);
                 String title = item.getItemTitle();
                 int id = item.getItemId();
-//                Toast.makeText(getContext(), title, Toast.LENGTH_SHORT).show();
-                //////                int data = result_global;
                 Toast.makeText(getContext(), Integer.toString(id), Toast.LENGTH_SHORT).show();
 
                 CommunityViewActivity fragment = CommunityViewActivity.newInstance(id);
@@ -109,6 +106,30 @@ public class ListActivity extends Fragment {
                 fragment.setArguments(bundle);
 
                 ((PageActivity)getActivity()).replaceFragment(fragment);
+            }
+        });
+
+        // 추천글 버튼 클릭 시
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PageActivity)getActivity()).replaceFragment(CommunityRecommendActivity.newInstance());
+            }
+        });
+
+        // 자유토크 버튼 클릭 시
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PageActivity)getActivity()).replaceFragment(CommunityFreetalkActivity.newInstance());
+            }
+        });
+
+        // 질문답변 버튼 클릭 시
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PageActivity)getActivity()).replaceFragment(CommunityQnaActivity.newInstance());
             }
         });
 

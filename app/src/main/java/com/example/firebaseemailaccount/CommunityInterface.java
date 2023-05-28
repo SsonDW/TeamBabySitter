@@ -15,9 +15,4 @@ public interface CommunityInterface {
 
     @GET("community/") // 전체 게시물 list get
     Call<Community_model> community_get();
-
-    @POST("comment/create/{id}") // 지정한 게시물 댓글 upload
-    Call<Comment_model> comment_post(@Path("id") Integer id);
-
-    // path('comment/<int:pk>', CommentDetail.as_view(), name='comment-detail'),
 }

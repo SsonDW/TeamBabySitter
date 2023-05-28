@@ -2,7 +2,6 @@ package com.example.firebaseemailaccount;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,15 +28,10 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private NaverMap naverMap;
-    private Marker cityHallMarker; // 시청 마커
-    private Marker sungnyemunMarker; // 숭례문 마커
     private SlidingUpPanelLayout slidingUpPanelLayout;
     private TextView titleTextView;
     private TextView addressTextView;
-    private TextView tablewareTextView;
-    private TextView babyChairTextView;
-    private TextView automaticDoorTextView;
-    private TextView nursingRoomTextView;
+    private TextView phonenumberTextView;
 
 
     public MapFragment() { }
@@ -55,9 +49,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         Button myButton = rootView.findViewById(R.id.myButton);
         myButton.setOnClickListener(v -> {
-            // 버튼을 클릭했을 때 처리할 로직 작성
-            // 새로운 화면으로의 전환 코드를 여기에 추가
-            // 예시로 다른 액티비티를 시작하는 Intent 사용
             Intent intent = new Intent(getActivity(), ReviewActivity.class);
             startActivity(intent);
         });
@@ -68,11 +59,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         slidingUpPanelLayout = rootView.findViewById(R.id.slidingPanelLayout);
         titleTextView = rootView.findViewById(R.id.titleTextView);
+        phonenumberTextView = rootView.findViewById(R.id.newTextView);
         addressTextView = rootView.findViewById(R.id.addressTextView);
-//        tablewareTextView = rootView.findViewById(R.id.tablewareTextView);
-//        babyChairTextView = rootView.findViewById(R.id.babyChairTextView);
-//        automaticDoorTextView = rootView.findViewById(R.id.automaticDoorsTextView);
-//        nursingRoomTextView = rootView.findViewById(R.id.nursingRoomTextView);
 
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -89,6 +77,43 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return rootView;
     }
 
+    public void generateMarker(String name) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("/GoingBaby/Location/" + name);
+
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    double latitude = dataSnapshot.child("latitude").getValue(Double.class);
+                    double longitude = dataSnapshot.child("longitude").getValue(Double.class);
+                    LatLng newLatLng = new LatLng(latitude, longitude);
+
+                    // 새로운 LatLng 객체를 사용하여 원하는 작업 수행
+                    Marker newMarker = new Marker();
+                    newMarker.setPosition(newLatLng);
+                    newMarker.setTag(name); // 마커에 태그 설정
+                    newMarker.setMap(naverMap);
+
+                    // 마커 클릭 리스너 등록
+                    newMarker.setOnClickListener(marker -> {
+                        // 마커 클릭 시 동작할 내용 작성
+                        titleTextView.setText(String.valueOf(dataSnapshot.child("name").getValue()));
+                        phonenumberTextView.setText(String.valueOf(dataSnapshot.child("PhoneNumber").getValue()));
+                        addressTextView.setText(String.valueOf(dataSnapshot.child(name + "Address").getValue()));
+                        return true;
+                    });
+                } else {
+                    // 데이터가 없는 경우 처리
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // 에러 처리
+            }
+        });
+    }
+
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
@@ -103,101 +128,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 15 // 줌 레벨 설정
         ));
 
-        // 서울시청의 위치를 설정합니다.
-        double seoulCityHallLatitude = 37.5666102;
-        double seoulCityHallLongitude = 126.9783881;
-        LatLng seoulCityHallLatLng = new LatLng(seoulCityHallLatitude, seoulCityHallLongitude);
-
-        // 숭례문의 위치를 설정합니다.
-        double sungnyemunLatitude = 37.559978;
-        double sungnyemunLongitude = 126.975291;
-        LatLng sungnyemunLatLng = new LatLng(sungnyemunLatitude, sungnyemunLongitude);
-
-        // 서울시청 마커를 생성합니다.
-        cityHallMarker = new Marker();
-        cityHallMarker.setPosition(seoulCityHallLatLng);
-        cityHallMarker.setTag("CityHall"); // 마커에 태그 설정
-        cityHallMarker.setMap(naverMap);
-
-        // 숭례문 마커를 생성합니다.
-        sungnyemunMarker = new Marker();
-        sungnyemunMarker.setPosition(sungnyemunLatLng);
-        sungnyemunMarker.setTag("Sungnyemun"); // 마커에 태그 설정
-        sungnyemunMarker.setMap(naverMap);
-
-        // 마커 클릭 이벤트 리스너를 설정합니다.
-        Overlay.OnClickListener markerClickListener = new Overlay.OnClickListener() {
-            @Override
-            public boolean onClick(@NonNull Overlay overlay) {
-                if (overlay instanceof Marker) {
-                    Marker marker = (Marker) overlay;
-                    String markerTag = (String) marker.getTag();
-
-                    if (slidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                        // 파이어베이스 데이터 읽기
-                        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("/GoingBaby/Location");
-                        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    String title = null;
-                                    String address = null;
-                                    String tableware = null;
-                                    String babychair = null;
-                                    String automaticdoor = null;
-                                    String nursingroom = null;
-
-                                    if (markerTag.equals("CityHall") && marker.getPosition().latitude == seoulCityHallLatitude && marker.getPosition().longitude == seoulCityHallLongitude) {
-                                        DataSnapshot cityHallSnapshot = dataSnapshot.child("CityHall").child("name");
-                                        if (cityHallSnapshot.exists()) {
-                                            title = String.valueOf(cityHallSnapshot.getValue());
-                                        }
-
-                                        address = String.valueOf(dataSnapshot.child("CityHall").child("CityHallAddress").getValue());
-                                        tableware = String.valueOf(dataSnapshot.child("CityHall").child("BabyTableware").getValue());
-                                        babychair = String.valueOf(dataSnapshot.child("CityHall").child("BabyChair").getValue());
-                                        automaticdoor = String.valueOf(dataSnapshot.child("CityHall").child("AutomaticDoors").getValue());
-                                        nursingroom = String.valueOf(dataSnapshot.child("CityHall").child("NursingRoom").getValue());
-
-                                    } else if (markerTag.equals("Sungnyemun") && marker.getPosition().latitude == sungnyemunLatitude && marker.getPosition().longitude == sungnyemunLongitude) {
-                                        DataSnapshot sungnyemunSnapshot = dataSnapshot.child("Sungnyemun").child("name");
-                                        if (sungnyemunSnapshot.exists()) {
-                                            title = String.valueOf(sungnyemunSnapshot.getValue());
-                                        }
-                                        address = String.valueOf(dataSnapshot.child("SungnyemunAddress").getValue());
-                                    }
-
-                                    // 정보 표시
-                                    titleTextView.setText(title);
-                                    addressTextView.setText(address);
-//                                    tablewareTextView.setText(tableware);
-//                                    babyChairTextView.setText(babychair);
-//                                    automaticDoorTextView.setText(automaticdoor);
-//                                    nursingRoomTextView.setText(nursingroom);
-
-                                    // 슬라이딩 패널 열기
-                                    //slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                // 데이터 읽기 실패 시 처리
-                                Log.e("Firebase", "Failed to read data", databaseError.toException());
-                            }
-                        });
-                    } else {
-                        // 슬라이딩 패널 닫기
-                        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    }
-                }
-
-                return true;
-            }
-        };
-
-        cityHallMarker.setOnClickListener(markerClickListener);
-        sungnyemunMarker.setOnClickListener(markerClickListener);
+        // 마커 생성
+        generateMarker("CityHall");
+        generateMarker("AtwosomePlace");
+        generateMarker("Sungnyemun");
+        generateMarker("CGV");
     }
 
     @Override

@@ -1,8 +1,5 @@
 package com.example.firebaseemailaccount;
 
-import static android.content.Intent.getIntent;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;

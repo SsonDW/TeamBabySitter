@@ -9,13 +9,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-
 public class ListViewAdapter extends BaseAdapter {
     private TextView titleTextView;
     private TextView contentTextView;
     private int id;
-    Call<Community_model> call;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
 
@@ -62,6 +59,7 @@ public class ListViewAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
+    // community list 관련
     public void addItem(int id, String title, String content) {
         ListViewItem item = new ListViewItem();
 
@@ -74,6 +72,16 @@ public class ListViewAdapter extends BaseAdapter {
         // list 호출 시 버벅거림 없도록
         // 효과X.
         // this.notifyDataSetChanged(); // list 호출 시 버벅거림 없도록
+    }
+
+    // comment list 관련
+    public void addCommentItem(String content) {
+        ListViewItem item = new ListViewItem();
+
+        // item.setItemId(id);
+        item.setItemContent(content);
+
+        listViewItemList.add(item);
     }
 
 }

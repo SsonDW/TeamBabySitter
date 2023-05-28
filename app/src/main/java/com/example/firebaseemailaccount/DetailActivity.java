@@ -1,6 +1,5 @@
 
 package com.example.firebaseemailaccount;
-import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.content.Context;
 import android.net.Uri;

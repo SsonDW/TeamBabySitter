@@ -1,9 +1,5 @@
 package com.example.firebaseemailaccount;
 
-import android.content.Context;
-
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -30,15 +30,22 @@ public class Community_model {
     @Expose
     private int row_count;
 
+    @SerializedName("comments_count")
+    @Expose
+    private int comments_count;
+
+    @SerializedName("like_count")
+    @Expose
+    private int like_count;
+
+    @SerializedName("category")
+    @Expose
+    private String category;
+
     public Community_model(String title, String content){
         this.title = title;
         this.content = content;
     }
-
-//    public Community_model getCommunityObject(int id) {
-//        this.getClass();
-//        return this;
-//    }
 
     public int getId(){
         return id;
@@ -47,11 +54,6 @@ public class Community_model {
     public String getTitle(){
         return title;
     }
-
-    // ?
-//    public String getTitleById(int id){
-//        return title;
-//    }
 
     public String getContent(){
         return content;
@@ -67,5 +69,14 @@ public class Community_model {
 
     public int getRowCount(){
         return row_count;
+    }
+    public int getCommentsCount(){
+        return comments_count;
+    }
+    public int getLikeCount(){
+        return like_count;
+    }
+    public String getCategory(){
+        return category;
     }
 }
