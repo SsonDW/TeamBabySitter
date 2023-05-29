@@ -2,10 +2,13 @@ package com.example.firebaseemailaccount;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapView;
@@ -32,6 +40,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private TextView titleTextView;
     private TextView addressTextView;
     private TextView phonenumberTextView;
+    private Button myButton;
+    private RatingBar averageRatingBar;
+    private  TextView newTextView;
+    private ImageView iconImageView;
 
 
     public MapFragment() { }
@@ -47,12 +59,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_map, container, false);
 
-        Button myButton = rootView.findViewById(R.id.myButton);
-        myButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ReviewActivity.class);
-            startActivity(intent);
-        });
-
         mapView = rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -61,6 +67,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         titleTextView = rootView.findViewById(R.id.titleTextView);
         phonenumberTextView = rootView.findViewById(R.id.newTextView);
         addressTextView = rootView.findViewById(R.id.addressTextView);
+        myButton = rootView.findViewById(R.id.myButton);
+        myButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ReviewActivity.class);
+            System.out.println("MapFragment: " + titleTextView.getText());
+            intent.putExtra("key", titleTextView.getText()); // 여기서 "key"는 데이터를 식별하기 위한 키 값이고, value는 전달하려는 데이터입니다.
+            startActivity(intent);
+        });
+        averageRatingBar = rootView.findViewById(R.id.ratingBarResult);
+        newTextView = rootView.findViewById(R.id.newTextView);
+        iconImageView = rootView.findViewById(R.id.iconImageView);
+
+        //초기화
+        titleTextView.setText(""); // 제목 초기화
+        phonenumberTextView.setText(""); // 전화번호 초기화
+        newTextView.setText("");
+        addressTextView.setText(""); // 주소 초기화
+        // 이미지뷰에 초기 이미지 설정
+        iconImageView.setImageResource(R.drawable.white);
 
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -100,6 +124,56 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         titleTextView.setText(String.valueOf(dataSnapshot.child("name").getValue()));
                         phonenumberTextView.setText(String.valueOf(dataSnapshot.child("PhoneNumber").getValue()));
                         addressTextView.setText(String.valueOf(dataSnapshot.child(name + "Address").getValue()));
+                        averageRatingBar.setRating(0.0f);
+
+                        // Firestore 인스턴스 가져오기
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                        // "Reviews" 컬렉션 참조
+                        CollectionReference reviewsCollectionRef = db.collection("Reviews");
+
+                        // storeName이 "cgv"인 데이터 필터링
+                        Query query = reviewsCollectionRef.whereEqualTo("storeName", titleTextView.getText().toString());
+
+                        // 쿼리 실행
+                        query.get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                // 쿼리 결과 가져오기
+                                QuerySnapshot querySnapshot = task.getResult();
+
+                                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                    double totalRating = 0.0;
+                                    int count = 0;
+
+                                    // 모든 문서의 rating 값을 합산하고 문서 개수를 세기
+                                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                                        double ratingDouble = documentSnapshot.getDouble("rating");
+                                        totalRating += ratingDouble;
+                                        count++;
+                                    }
+
+                                    // 평균 계산
+                                    if (count > 0) {
+                                        double averageRating = totalRating / count;
+                                        float averageRatingFloat = (float) averageRating;
+                                        System.out.println("averageRatingFloat: " + averageRatingFloat);
+
+                                        // averageRatingBar에 평균값 설정
+                                        averageRatingBar.setRating(averageRatingFloat);
+
+                                        // 평균값을 사용하여 원하는 동작 수행
+                                        // 예: TextView에 평균값 설정 등
+                                        // ...
+                                    }
+                                }
+
+                            } else {
+                                // 쿼리 실패 시 동작
+                                Log.e("ReviewActivity", "Error getting reviews", task.getException());
+                                // 예: 오류 메시지 표시 등
+                            }
+                        });
+
                         return true;
                     });
                 } else {

@@ -6,8 +6,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
 
 public interface UserInterface {
     @POST("user/register/") // user 회원가입
@@ -21,7 +19,7 @@ public interface UserInterface {
 
     // 토큰을 기반으로 POST 이외의 통신을 할 때 @Header의 방식으로 Token만을 가지고 통신하는 방식도 존재
     // Call<UserAccount> user_get(@Header("Authorization") String token);
-    @PUT("user/view/") // user account 수정(mypage 안에서 동작)
+    @PATCH("user/view/") // user account 수정(mypage 안에서 동작)
     Call<UserAccount> user_update(@Header("token") String token, @Body UserAccount user);
 
     @GET("user/view/") // user account 확인(mypage 안에서 동작)

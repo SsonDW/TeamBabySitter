@@ -1,14 +1,11 @@
 package com.example.firebaseemailaccount;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -48,8 +45,10 @@ public class MyPageUpdateActivity extends Fragment {
                     baby_birthday.getText().toString(),
                     baby_gender.getText().toString()
             );
-            String login_cookie = LoginActivity.sharedPref.getString("cookie", "abcd");
-            call = Retrofit_client.getUserApiService().user_update(login_cookie, user);
+
+            String autoLogin_cookie = LoginActivity.sharedPref.getString("cookie", null);
+
+            call = Retrofit_client.getUserApiService().user_update(autoLogin_cookie, user);
             call.enqueue(new Callback<UserAccount>() {
                 //콜백 받는 부분
                 @Override
