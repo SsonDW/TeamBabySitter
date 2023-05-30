@@ -38,6 +38,10 @@ public class Community_model {
     @Expose
     private int like_count;
 
+    @SerializedName("all_comments_count")
+    @Expose
+    private int all_comments_count;
+
     @SerializedName("category")
     @Expose
     private String category;
@@ -45,6 +49,10 @@ public class Community_model {
     public Community_model(String title, String content){
         this.title = title;
         this.content = content;
+    }
+
+    public Community_model(int like_count){
+        this.like_count = like_count;
     }
 
     public int getId(){
@@ -79,4 +87,5 @@ public class Community_model {
     public String getCategory(){
         return category;
     }
+    public Integer getAllCommentsCount() { return all_comments_count; }
 }

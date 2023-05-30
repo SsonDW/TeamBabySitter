@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -38,6 +40,8 @@ import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import java.util.ArrayList;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
@@ -86,6 +90,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         addressTextView.setText(""); // 주소 초기화
         imageView.setImageResource(R.drawable.white); // 이미지 초기화
 
+
+        // ListView에 데이터 추가
+        ListView listView = rootView.findViewById(R.id.listView);
+        ArrayList<String> dataList = new ArrayList<>();
+        dataList.add("항목 1");
+        dataList.add("항목 2");
+        dataList.add("항목 3");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, dataList);
+        listView.setAdapter(adapter);
+
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -108,6 +123,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+                    System.out.println(dataSnapshot.child("name").getValue());
                     double latitude = dataSnapshot.child("latitude").getValue(Double.class);
                     double longitude = dataSnapshot.child("longitude").getValue(Double.class);
                     LatLng newLatLng = new LatLng(latitude, longitude);
@@ -129,7 +145,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         // FirebaseStorage 접근
                         FirebaseStorage storage = FirebaseStorage.getInstance();
                         // StorageReference 생성
-                        StorageReference storageRef = storage.getReference().child(String.valueOf(dataSnapshot.child("name").getValue()) + ".png");
+                        StorageReference storageRef = storage.getReference().child(name + ".png");
                         // 이미지 다운로드 URL 가져오기
                         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
@@ -228,8 +244,32 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // 마커 생성
         generateMarker("AtwosomePlace");
         generateMarker("CGV");
-        generateMarker("Sioldon");
+        generateMarker("CityHall");
+        generateMarker("HanaBank");
+        generateMarker("HansungUniversity");
+        generateMarker("HansungUniversityStation");
+        generateMarker("Lotteria");
+        generateMarker("Napoleon");
+        generateMarker("SFCMall");
+        generateMarker("Sioldon");;
         generateMarker("Starbucks");
+        generateMarker("Sungnyemun");
+        generateMarker("ThePlaza");
+        generateMarker("BurgerPark");
+        generateMarker("CafeTravel");
+        generateMarker("Cheongkimyeonga");
+        generateMarker("PantanoDessert");
+        generateMarker("SeongkuakMuseum");
+        generateMarker("TeenteenHall");
+        generateMarker("JacksonPizza");
+
+
+
+
+
+
+
+
     }
 
     @Override

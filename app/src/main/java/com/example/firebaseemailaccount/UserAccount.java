@@ -31,6 +31,10 @@ public class UserAccount
     @Expose
     private String baby_gender; // 남아(m), 여아(f) // 필수X
 
+    @SerializedName("user_image")
+    @Expose
+    private String user_image;
+
     // 추가
     @SerializedName("jwt")  // JSON 키 이름과 매핑
     private String jwt;
@@ -47,11 +51,12 @@ public class UserAccount
     }
 
     // 추가
-    public UserAccount(String email, String nickname, String baby_birthday, String baby_gender){
+    public UserAccount(String email, String nickname, String baby_birthday, String baby_gender, String user_image){
         this.email = email;
         this.nickname = nickname;
         this.baby_birthday = baby_birthday;
         this.baby_gender = baby_gender;
+        this.user_image = user_image;
     }
 
     public int getId(){
@@ -79,6 +84,9 @@ public class UserAccount
 
     public String getBabyGender(){
         return baby_gender;
+    }
+    public String getUserImage(){
+        return user_image;
     }
 
 

@@ -15,10 +15,10 @@
         android:text="프로필 편집"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_view" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/profile_view"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="32dp"
@@ -34,7 +34,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="아기성별"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/profile_view"
         app:layout_constraintTop_toBottomOf="@+id/nickname_field" />
 
     <TextView
@@ -44,7 +44,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="아기생일"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/profile_view"
         app:layout_constraintTop_toBottomOf="@+id/baby_gender_field" />
 
     <TextView
@@ -54,7 +54,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="140dp"
         android:text="닉네임"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/profile_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
