@@ -20,7 +20,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyPageActivity extends Fragment {
-    private View view;
     private String TAG = "MyPageFragment";
     Call<UserAccount> call;
     Button update_button, logout_button;
@@ -35,7 +34,7 @@ public class MyPageActivity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater , @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         Log.i(TAG,"onCreateView");
 
-        view = inflater.inflate(R.layout.activity_mypage,container,false);
+        View view = inflater.inflate(R.layout.activity_mypage, container, false);
 
         update_button = view.findViewById(R.id.update_button);
         logout_button = view.findViewById(R.id.logout_button);

@@ -37,16 +37,15 @@
             android:layout_height="120dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
-            android:src="@drawable/ic_kitty"
+            android:src="@drawable/white"
             android:scaleType="centerInside"
             android:adjustViewBounds="true"
-            tools:ignore="MissingConstraints"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_gravity="top"/>
 
         <TextView
-            android:id="@+id/titleTextView"
+            android:id="@+id/emptyTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -58,28 +57,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/PhoneNumberTextView"
+            android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:textAlignment="textStart"
-            android:text="전화번호"
-            app:layout_constraintStart_toEndOf="@+id/iconImageView"
-            app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
-
-        <TextView
-            android:id="@+id/newTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:text=""
-            app:layout_constraintBaseline_toBaselineOf="@+id/PhoneNumberTextView"
-            app:layout_constraintStart_toEndOf="@+id/PhoneNumberTextView" />
+            app:layout_constraintStart_toEndOf="@+id/iconImageView"
+            app:layout_constraintTop_toBottomOf="@+id/emptyTextView" />
 
         <TextView
             android:id="@+id/addressTextView"
@@ -89,10 +76,22 @@
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
-            app:layout_constraintTop_toBottomOf="@+id/newTextView"
+            app:layout_constraintTop_toBottomOf="@+id/titleTextView"
             app:layout_constraintStart_toEndOf="@+id/iconImageView"
             android:textAlignment="textStart"
             android:text="주소" />
+
+        <TextView
+            android:id="@+id/PhoneNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            app:layout_constraintTop_toBottomOf="@+id/addressTextView"
+            app:layout_constraintStart_toEndOf="@+id/iconImageView"
+            android:textAlignment="textStart"
+            android:text="" />
 
         <TextView
             android:id="@+id/ratingResultText"

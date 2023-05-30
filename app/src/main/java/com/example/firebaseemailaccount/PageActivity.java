@@ -21,14 +21,11 @@ public class PageActivity extends AppCompatActivity
         //화면에 보여짐
         setContentView(R.layout.bottom_navigation_container);
         buttonview = findViewById(R.id.bottomNav);
-        getSupportFragmentManager().beginTransaction().add(R.id.main_frame, new HomeActivity()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_frame, new MapFragment()).commit();
 
         // BottomNavigationView 선택 이벤트 처리
         buttonview.setOnItemSelectedListener((NavigationBarView.OnItemSelectedListener) menuItem -> {
             switch (menuItem.getItemId()) {
-                case R.id.home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new HomeActivity()).commit();
-                    break;
                 case R.id.map:
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new MapFragment()).commit();
                     break;

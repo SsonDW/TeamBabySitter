@@ -1,6 +1,7 @@
 package com.example.firebaseemailaccount;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,26 +29,24 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.overlay.Overlay;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private NaverMap naverMap;
-    private SlidingUpPanelLayout slidingUpPanelLayout;
+    private ImageView imageView;
     private TextView titleTextView;
     private TextView addressTextView;
-    private TextView phonenumberTextView;
-    private Button myButton;
+    private TextView phoneTextView;
     private RatingBar averageRatingBar;
-    private  TextView newTextView;
-    private ImageView iconImageView;
 
 
     public MapFragment() { }
@@ -63,11 +66,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-        slidingUpPanelLayout = rootView.findViewById(R.id.slidingPanelLayout);
+        SlidingUpPanelLayout slidingUpPanelLayout = rootView.findViewById(R.id.slidingPanelLayout);
+        imageView = rootView.findViewById(R.id.iconImageView);
         titleTextView = rootView.findViewById(R.id.titleTextView);
-        phonenumberTextView = rootView.findViewById(R.id.newTextView);
+        phoneTextView = rootView.findViewById(R.id.PhoneNumberTextView);
         addressTextView = rootView.findViewById(R.id.addressTextView);
-        myButton = rootView.findViewById(R.id.myButton);
+        Button myButton = rootView.findViewById(R.id.myButton);
         myButton.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ReviewActivity.class);
             System.out.println("MapFragment: " + titleTextView.getText());
@@ -75,16 +79,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             startActivity(intent);
         });
         averageRatingBar = rootView.findViewById(R.id.ratingBarResult);
-        newTextView = rootView.findViewById(R.id.newTextView);
-        iconImageView = rootView.findViewById(R.id.iconImageView);
 
         //초기화
         titleTextView.setText(""); // 제목 초기화
-        phonenumberTextView.setText(""); // 전화번호 초기화
-        newTextView.setText("");
+        phoneTextView.setText(""); // 전화번호 초기화
         addressTextView.setText(""); // 주소 초기화
-        // 이미지뷰에 초기 이미지 설정
-        iconImageView.setImageResource(R.drawable.white);
+        imageView.setImageResource(R.drawable.white); // 이미지 초기화
 
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -122,9 +122,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     newMarker.setOnClickListener(marker -> {
                         // 마커 클릭 시 동작할 내용 작성
                         titleTextView.setText(String.valueOf(dataSnapshot.child("name").getValue()));
-                        phonenumberTextView.setText(String.valueOf(dataSnapshot.child("PhoneNumber").getValue()));
+                        phoneTextView.setText(String.valueOf(dataSnapshot.child("PhoneNumber").getValue()));
                         addressTextView.setText(String.valueOf(dataSnapshot.child(name + "Address").getValue()));
                         averageRatingBar.setRating(0.0f);
+
+                        // FirebaseStorage 접근
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        // StorageReference 생성
+                        StorageReference storageRef = storage.getReference().child(String.valueOf(dataSnapshot.child("name").getValue()) + ".png");
+                        // 이미지 다운로드 URL 가져오기
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                // 다운로드 URL을 사용하여 이미지 로드 등의 작업 수행
+                                String imageUrl = uri.toString();
+                                // 이미지를 imageView에 설정하거나 처리하는 등의 작업 수행
+                                // Glide 등의 라이브러리를 사용하여 이미지 로드를 쉽게 처리할 수 있습니다.
+                                Glide.with(getContext()).load(imageUrl).into(imageView);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // 이미지 다운로드 실패 시 처리할 작업 수행
+                            }
+                        });
+
 
                         // Firestore 인스턴스 가져오기
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -178,6 +200,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     });
                 } else {
                     // 데이터가 없는 경우 처리
+                    System.out.println("Error");
                 }
             }
 
@@ -203,10 +226,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         ));
 
         // 마커 생성
-        generateMarker("CityHall");
         generateMarker("AtwosomePlace");
-        generateMarker("Sungnyemun");
         generateMarker("CGV");
+        generateMarker("Sioldon");
+        generateMarker("Starbucks");
     }
 
     @Override
