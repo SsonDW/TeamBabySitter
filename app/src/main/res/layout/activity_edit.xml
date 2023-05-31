@@ -18,7 +18,7 @@
             android:id="@+id/subject_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Subject"
+            android:hint="ex)수유,기저귀,감기약"
             android:scrollbarSize="4dp"
             android:textSize="25sp" />
 
@@ -26,14 +26,14 @@
             android:id="@+id/classroom_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Classroom"
+            android:hint="횟수"
             android:textSize="25sp" />
 
         <EditText
             android:id="@+id/professor_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Professor"
+            android:hint="메모"
             android:textSize="25sp" />
 
         <include layout="@layout/time_box" />

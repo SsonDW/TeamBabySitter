@@ -26,7 +26,7 @@ public class CommunityViewActivity extends Fragment {
     // CommunityActivity ca = new CommunityActivity();
     ListActivity la = new ListActivity();
     static Integer post_id;
-    TextView title_txt, content_txt, created_at_txt, comment_view1, like_count_txt;
+    TextView title_txt, content_txt, like_count_txt;
     EditText comment_txt;
     Button comment_button, list_button;
     ListView listView;
@@ -124,7 +124,6 @@ public class CommunityViewActivity extends Fragment {
                     public void onResponse(Call<Comment_model> call, Response<Comment_model> response) {
                         Toast.makeText(getContext(), "댓글 등록 성공", Toast.LENGTH_LONG).show();
                         Comment_model result = response.body();
-                        comment_view1.setText(result.getContent());
                         comment_txt.setText(""); // 댓글 등록 후 지워버리기
                     }
                     @Override

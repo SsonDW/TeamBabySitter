@@ -1,9 +1,12 @@
 package com.example.firebaseemailaccount;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +54,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private TextView addressTextView;
     private TextView phoneTextView;
     private RatingBar averageRatingBar;
-
+    private ListView listView;
 
     public MapFragment() { }
 
@@ -78,28 +81,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Button myButton = rootView.findViewById(R.id.myButton);
         myButton.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ReviewActivity.class);
-            System.out.println("MapFragment: " + titleTextView.getText());
             intent.putExtra("key", titleTextView.getText()); // 여기서 "key"는 데이터를 식별하기 위한 키 값이고, value는 전달하려는 데이터입니다.
             startActivity(intent);
         });
         averageRatingBar = rootView.findViewById(R.id.ratingBarResult);
+        listView = rootView.findViewById(R.id.listView);
 
         //초기화
-        titleTextView.setText(""); // 제목 초기화
-        phoneTextView.setText(""); // 전화번호 초기화
-        addressTextView.setText(""); // 주소 초기화
-        imageView.setImageResource(R.drawable.white); // 이미지 초기화
+        titleTextView.setText("오늘의 PICK"); // 제목 초기화
+        // 글자 크기와 bold 설정
+        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20); // 크기를 원하는 값으로 변경
+        titleTextView.setTypeface(null, Typeface.BOLD);
 
-
-        // ListView에 데이터 추가
-        ListView listView = rootView.findViewById(R.id.listView);
-        ArrayList<String> dataList = new ArrayList<>();
-        dataList.add("항목 1");
-        dataList.add("항목 2");
-        dataList.add("항목 3");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, dataList);
-        listView.setAdapter(adapter);
+// 글자 색상 변경
+        titleTextView.setTextColor(Color.BLUE); // 색상을 원하는 값으로 변경
+        phoneTextView.setText("서울특별시 종로구 율곡로23길 3");
+        addressTextView.setText( "★ 판타노디저트 ★");
+        imageView.setImageResource(R.drawable.pantanodessert); // 이미지 초기화
 
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -123,7 +121,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    System.out.println(dataSnapshot.child("name").getValue());
                     double latitude = dataSnapshot.child("latitude").getValue(Double.class);
                     double longitude = dataSnapshot.child("longitude").getValue(Double.class);
                     LatLng newLatLng = new LatLng(latitude, longitude);
@@ -163,7 +160,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             }
                         });
 
-
                         // Firestore 인스턴스 가져오기
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -182,19 +178,49 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
                                     double totalRating = 0.0;
                                     int count = 0;
+                                    int info_count = 0; // 옵션 표시 배열 길이
+                                    ArrayList<String> reviewData = new ArrayList<>();
+                                    String Info[] = new String[7]; // 옵션 표시 배열
 
                                     // 모든 문서의 rating 값을 합산하고 문서 개수를 세기
                                     for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                                        // 평균 평점 계산
                                         double ratingDouble = documentSnapshot.getDouble("rating");
                                         totalRating += ratingDouble;
                                         count++;
+                                        // 경사로, 아기식기등 옵션 사항 표시하기
+//                                        if(documentSnapshot.getBoolean("hasRamp") == true) {
+//                                            Info[info_count++] = "경사로 ";
+//                                        }
+                                        if(documentSnapshot.getBoolean("hasAutomaticDoor") == true) {
+                                            Info[info_count++] = "자동문 ";
+                                        }
+                                        if(documentSnapshot.getBoolean("hasBabyChair") == true) {
+                                            Info[info_count++] = "아기의자 ";
+                                        }
+                                        if(documentSnapshot.getBoolean("hasNursingRoom") == true) {
+                                            Info[info_count++] = "수유실 ";
+                                        }
+                                        if(documentSnapshot.getBoolean("hasPlayRoom") == true) {
+                                            Info[info_count++] = "놀이방 ";
+                                        }
+                                        if(documentSnapshot.getBoolean("hasTableWare") == true) {
+                                            Info[info_count] = "아기식기 ";
+                                        }
+                                        String InfoOption = "";
+                                        for(int j = 0; j<info_count; j++) {
+                                            InfoOption += Info[j];
+                                        }
+                                        reviewData.add(InfoOption);
+                                        // reviewText 리스트뷰에 추가하기
+                                        String temp = documentSnapshot.getString("reviewText");
+                                        reviewData.add(temp);
                                     }
 
                                     // 평균 계산
                                     if (count > 0) {
                                         double averageRating = totalRating / count;
                                         float averageRatingFloat = (float) averageRating;
-                                        System.out.println("averageRatingFloat: " + averageRatingFloat);
 
                                         // averageRatingBar에 평균값 설정
                                         averageRatingBar.setRating(averageRatingFloat);
@@ -203,6 +229,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                         // 예: TextView에 평균값 설정 등
                                         // ...
                                     }
+                                    ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, reviewData);
+                                    listView.setAdapter(adapter); // listView를 adater랑 연결해서 데이터 넣어주기
                                 }
 
                             } else {
@@ -241,7 +269,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 15 // 줌 레벨 설정
         ));
 
-        // 마커 생성
+        // 마커 생성, 후에 배열로 추가할 수 있도록 변경할 수 있을 것!
         generateMarker("AtwosomePlace");
         generateMarker("CGV");
         generateMarker("CityHall");
@@ -251,7 +279,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         generateMarker("Lotteria");
         generateMarker("Napoleon");
         generateMarker("SFCMall");
-        generateMarker("Sioldon");;
+        generateMarker("Sioldon");
         generateMarker("Starbucks");
         generateMarker("Sungnyemun");
         generateMarker("ThePlaza");
@@ -262,14 +290,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         generateMarker("SeongkuakMuseum");
         generateMarker("TeenteenHall");
         generateMarker("JacksonPizza");
-
-
-
-
-
-
-
-
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.example.firebaseemailaccount;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -56,10 +57,15 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
         // 수정
         this.context = getContext();
         addBtn = view.findViewById(R.id.add_btn);
+        addBtn.setBackgroundColor(Color.parseColor("#E893CF"));
         clearBtn = view.findViewById(R.id.clear_btn);
+        clearBtn.setBackgroundColor(Color.parseColor("#9376E0"));
         saveBtn = view.findViewById(R.id.save_btn);
+        saveBtn.setBackgroundColor(Color.parseColor("#F6FFA6"));
         loadBtn = view.findViewById(R.id.load_btn);
+       loadBtn.setBackgroundColor(Color.parseColor("#F3BCC8"));
         timerButton = view.findViewById(R.id.timer_btn);
+
         timetable = view.findViewById(R.id.timetable);
         // timetable.setHeaderHighlight(2);
         initView();
