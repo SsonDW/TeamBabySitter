@@ -1,5 +1,6 @@
 package com.example.firebaseemailaccount;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,11 +31,14 @@ public class ListActivity extends Fragment {
     ListViewAdapter adapter;
     ListViewItem listViewitem;
     Button reg_button, button1, button2, button3;
+    SearchView search_input; // 검색어를 입력할 Input 창
     String userid = "";
     Community_model cm;
     int i;
     public int post_id;
     static int list_count;
+
+    HashMap<Integer, String> id_title_list;
 
     // 리스트뷰에 사용할 제목 배열
     ArrayList<String> titleList = new ArrayList<>();
@@ -56,7 +61,9 @@ public class ListActivity extends Fragment {
         button1 = view.findViewById(R.id.button1);
         button2 = view.findViewById(R.id.button2);
         button3 = view.findViewById(R.id.button3);
+        search_input = view.findViewById(R.id.search_input);
 
+        id_title_list = new HashMap<>();
 
         // ----------------------------------- 게시글 전체 list view -----------------------------------
         call = Retrofit_client.getApiService().community_detail_get(1);
@@ -71,6 +78,7 @@ public class ListActivity extends Fragment {
                         @Override
                         public void onResponse(Call<Community_model> call, Response<Community_model> response) {
                             Community_model result = response.body();
+                            id_title_list.put(result.getId(), result.getTitle());
                             // titleList.add(result.getTitle());
                             adapter.addItem(result.getId(), result.getTitle(), result.getContent());
                             adapter.notifyDataSetChanged(); // 꼭 반영해줘야 list에 제대로 addItem됨
@@ -87,6 +95,28 @@ public class ListActivity extends Fragment {
             @Override
             public void onFailure(Call<Community_model> call, Throwable t) {
 
+            }
+        });
+
+        // ----------------------------------- 검색어 입력 시 -----------------------------------
+        search_input.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.clearItems();
+                for (Integer id : id_title_list.keySet()) {
+                    String title = id_title_list.get(id);
+                    if (title.toLowerCase().contains(s.toLowerCase())) {
+                        // Add the matching items to the adapter
+                        adapter.addItem(id, title, "");
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                return false;
             }
         });
 

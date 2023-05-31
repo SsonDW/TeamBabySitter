@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     app:umanoDragView="@id/slide_layout"
-    app:umanoPanelHeight="200dp">
+    app:umanoPanelHeight="210dp">
 
     <RelativeLayout
         android:id="@+id/back_layout"
@@ -44,7 +44,7 @@
                 <ImageView
                     android:id="@+id/iconImageView"
                     android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_height="150dp"
                     android:src="@drawable/white"
                     android:scaleType="centerInside"
                     android:adjustViewBounds="true"
@@ -57,20 +57,11 @@
                     android:layout_marginStart="16dp">
 
                     <TextView
-                        android:id="@+id/emptyTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:textAppearanceSmall"
-                        android:textColor="?android:attr/textColorSecondary"
-                        android:text="" />
-
-                    <TextView
                         android:id="@+id/titleTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceSmall"
                         android:textColor="?android:attr/textColorSecondary"
-                        android:textAlignment="textStart"
                         android:text="" />
 
                     <TextView
@@ -80,16 +71,34 @@
                         android:textAppearance="?android:textAppearanceSmall"
                         android:textColor="?android:attr/textColorSecondary"
                         android:textAlignment="textStart"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/phoneNumberTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:textAlignment="textStart"
                         android:text="주소" />
 
                     <TextView
-                        android:id="@+id/PhoneNumberTextView"
+                        android:id="@+id/OptionTextView1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceSmall"
                         android:textColor="?android:attr/textColorSecondary"
                         android:textAlignment="textStart"
                         android:text="" />
+
+                    <TextView
+                        android:id="@+id/OptionTextView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:textAlignment="textStart"
+                        android:text="OptionTextView" />
 
                 </LinearLayout>
 

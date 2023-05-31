@@ -51,12 +51,11 @@ public class UserAccount
     }
 
     // 추가
-    public UserAccount(String email, String nickname, String baby_birthday, String baby_gender, String user_image){
+    public UserAccount(String email, String nickname, String baby_birthday, String baby_gender){
         this.email = email;
         this.nickname = nickname;
         this.baby_birthday = baby_birthday;
         this.baby_gender = baby_gender;
-        this.user_image = user_image;
     }
 
     public int getId(){

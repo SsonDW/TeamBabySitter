@@ -11,37 +11,60 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/custom_btn_container1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="6dp">
 
 
         <Button
             android:id="@+id/save_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="저장"/>
+        </androidx.cardview.widget.CardView>
 
-            android:backgroundTintMode="add"
-            android:elevation="2dp"
-            android:radius="10dp"
-            android:text="저장"
-          />
-
+        <androidx.cardview.widget.CardView
+            android:id="@+id/custom_btn_container2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="6dp">
         <Button
             android:id="@+id/load_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="불러오기" />
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/custom_btn_container3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="6dp">
 
         <Button
             android:id="@+id/add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="추가" />
+            android:text="추가"
+          />
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/custom_btn_container4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="6dp">
 
         <Button
             android:id="@+id/clear_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="삭제" />
-
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <!-- 버튼들 -->

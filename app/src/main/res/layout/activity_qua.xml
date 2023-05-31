@@ -8,12 +8,13 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:text="질문답변"
-        android:textSize="48sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#F6FFA6"
+    android:text="Q&amp;A"
+        android:textColor="@color/black"
+        android:textSize="36sp"
         android:textStyle="bold" />
-
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

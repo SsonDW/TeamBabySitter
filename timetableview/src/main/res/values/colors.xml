@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorHeader">#fcfcfc</color>
-    <color name="colorHeaderText">#7d7d7d</color>
+    <color name="colorHeaderText">#000000</color>
     <color name="colorTableItem">#efefef</color>
 
     <string-array name="default_sticker_color">
@@ -14,6 +14,8 @@
         <item>#9f86e1</item>
         <item>#78cb87</item>
         <item>#d397ed</item>
+       <item>#F5F5DC</item>
+
 
         <item>#9376E0</item>
         <item>#E893CF </item>

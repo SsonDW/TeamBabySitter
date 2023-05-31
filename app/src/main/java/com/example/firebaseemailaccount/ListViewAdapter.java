@@ -84,4 +84,9 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
+    public void clearItems() {
+        listViewItemList.clear();
+        notifyDataSetChanged();
+    }
+
 }

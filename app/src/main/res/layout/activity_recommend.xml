@@ -8,10 +8,12 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="match_parent"
-        android:layout_height="73dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#9376E0"
         android:text="추천글"
-        android:textSize="48sp"
+        android:textColor="@color/black"
+        android:textSize="36sp"
         android:textStyle="bold" />
 
     <ListView

@@ -41,6 +41,7 @@ import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -55,6 +56,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private TextView phoneTextView;
     private RatingBar averageRatingBar;
     private ListView listView;
+    private TextView optionTextView1;
+    private TextView optionTextView2;
+    private Marker currentMarker;
+    private InfoWindow currentInfoWindow;
+
+
 
     public MapFragment() { }
 
@@ -76,8 +83,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         SlidingUpPanelLayout slidingUpPanelLayout = rootView.findViewById(R.id.slidingPanelLayout);
         imageView = rootView.findViewById(R.id.iconImageView);
         titleTextView = rootView.findViewById(R.id.titleTextView);
-        phoneTextView = rootView.findViewById(R.id.PhoneNumberTextView);
         addressTextView = rootView.findViewById(R.id.addressTextView);
+        phoneTextView = rootView.findViewById(R.id.phoneNumberTextView);
+        optionTextView1 = rootView.findViewById(R.id.OptionTextView1);
+        optionTextView2 = rootView.findViewById(R.id.OptionTextView2);
         Button myButton = rootView.findViewById(R.id.myButton);
         myButton.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ReviewActivity.class);
@@ -93,10 +102,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20); // 크기를 원하는 값으로 변경
         titleTextView.setTypeface(null, Typeface.BOLD);
 
-// 글자 색상 변경
+        // 글자 색상 변경
         titleTextView.setTextColor(Color.BLUE); // 색상을 원하는 값으로 변경
         phoneTextView.setText("서울특별시 종로구 율곡로23길 3");
-        addressTextView.setText( "★ 판타노디저트 ★");
+        addressTextView.setText("★ 판타노디저트 ★");
+        optionTextView1.setText("수유실X, 아기의자O, 아기식기O");
+        optionTextView1.setText("자동문X, 놀이방O, 경사로O");
         imageView.setImageResource(R.drawable.pantanodessert); // 이미지 초기화
 
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -113,6 +124,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         return rootView;
     }
+
 
     public void generateMarker(String name) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("/GoingBaby/Location/" + name);
@@ -131,8 +143,65 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     newMarker.setTag(name); // 마커에 태그 설정
                     newMarker.setMap(naverMap);
 
+                    InfoWindow infoWindow = new InfoWindow();
+                    infoWindow.setAdapter(new InfoWindow.ViewAdapter() {
+                        @NonNull
+                        @Override
+                        public View getView(@NonNull InfoWindow infoWindow) {
+                            // 정보 창의 내용을 설정
+                            View infoWindowView = LayoutInflater.from(getContext()).inflate(R.layout.info_window_layout, null);
+                            TextView infoOption1 = infoWindowView.findViewById(R.id.titleTextView);
+                            TextView infoOption2 = infoWindowView.findViewById(R.id.addressTextView);
+
+                            infoOption1.setText(String.valueOf(dataSnapshot.child("NursingRoom").getValue())
+                                    + String.valueOf(dataSnapshot.child("BabyChair").getValue())
+                                    + String.valueOf(dataSnapshot.child("BabyTableware").getValue()));
+                            infoOption2.setText(String.valueOf(dataSnapshot.child("AutomaticDoors").getValue())
+                                    + String.valueOf(dataSnapshot.child("PlayRoom").getValue())
+                                    + String.valueOf(dataSnapshot.child("Ramp").getValue()));
+
+                            return infoWindowView;
+                        }
+                    });
+
                     // 마커 클릭 리스너 등록
                     newMarker.setOnClickListener(marker -> {
+
+                        // 마커 클릭 시 동작할 내용 작성
+                        titleTextView.setText(String.valueOf(dataSnapshot.child("name").getValue()));
+                        phoneTextView.setText(String.valueOf(dataSnapshot.child("PhoneNumber").getValue()));
+                        addressTextView.setText(String.valueOf(dataSnapshot.child(name + "Address").getValue()));
+                        // 경사로, 아기식기, 아기용품 등등 관련 정보 표시
+                        String optionText1 = String.valueOf(dataSnapshot.child("NursingRoom").getValue())
+                                + String.valueOf(dataSnapshot.child("BabyChair").getValue())
+                                + String.valueOf(dataSnapshot.child("BabyTableware").getValue());
+                        optionTextView1.setText(optionText1);
+                        String optionText2 = String.valueOf(dataSnapshot.child("AutomaticDoors").getValue())
+                                + String.valueOf(dataSnapshot.child("PlayRoom").getValue())
+                                + String.valueOf(dataSnapshot.child("Ramp").getValue());
+                        optionTextView1.setText(optionText1);
+                        optionTextView2.setText(optionText2);
+                        averageRatingBar.setRating(0.0f);
+
+                        LatLng markerPosition = newMarker.getPosition();
+                        LatLng databaseLatLng = new LatLng(latitude, longitude);
+
+                        // 이전 마커와 정보 창이 있는지 확인하고 닫기
+                        if (currentMarker != null && currentMarker.getInfoWindow() != null) {
+                            currentMarker.getInfoWindow().close();
+                            currentMarker = null;
+                        }
+                        if (currentInfoWindow != null) {
+                            currentInfoWindow.close();
+                            currentInfoWindow = null;
+                        }
+                        if (markerPosition.equals(databaseLatLng)) {
+                            // 일치하는 경우 정보 창 열기
+                            currentInfoWindow = infoWindow;
+                            infoWindow.open(newMarker);
+                            currentMarker = newMarker;
+                        }
+
                         // 마커 클릭 시 동작할 내용 작성
                         titleTextView.setText(String.valueOf(dataSnapshot.child("name").getValue()));
                         phoneTextView.setText(String.valueOf(dataSnapshot.child("PhoneNumber").getValue()));

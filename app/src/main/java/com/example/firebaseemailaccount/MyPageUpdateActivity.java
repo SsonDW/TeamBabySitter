@@ -101,8 +101,7 @@ public class MyPageUpdateActivity extends Fragment {
                     email.getText().toString(),
                     nickname.getText().toString(),
                     baby_birthday.getText().toString(),
-                    baby_gender.getText().toString(),
-                    ""
+                    baby_gender.getText().toString()
             );
 
             call = Retrofit_client.getUserApiService().user_update(autoLogin_cookie, user);

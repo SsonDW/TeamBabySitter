@@ -65,7 +65,7 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
         loadBtn = view.findViewById(R.id.load_btn);
        loadBtn.setBackgroundColor(Color.parseColor("#F3BCC8"));
         timerButton = view.findViewById(R.id.timer_btn);
-
+        timerButton.setBackgroundColor(Color.parseColor("#7aa5e9"));
         timetable = view.findViewById(R.id.timetable);
         // timetable.setHeaderHighlight(2);
         initView();

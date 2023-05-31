@@ -57,6 +57,8 @@
             android:name=".EditActivity"/>
         <activity android:name=".ReviewActivity"
             android:exported="true"/>
+        <activity android:name=".TimerActivity"/>
+
     </application>
 
 </manifest>
