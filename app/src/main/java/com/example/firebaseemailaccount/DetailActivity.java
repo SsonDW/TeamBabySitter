@@ -1,4 +1,3 @@
-
 package com.example.firebaseemailaccount;
 
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,11 +51,11 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_detail);
 
-// ListActivity 에서 넘긴 변수들을 받아줌
+        // ListActivity 에서 넘긴 변수들을 받아줌
         board_seq = getIntent().getStringExtra("board_seq");
         userid = getIntent().getStringExtra("userid");
 
-// 컴포넌트 초기화
+        // 컴포넌트 초기화
         title_tv = findViewById(R.id.title_tv);
         content_tv = findViewById(R.id.content_tv);
         date_tv = findViewById(R.id.date_tv);
@@ -66,27 +64,25 @@ public class DetailActivity extends AppCompatActivity {
         comment_et = findViewById(R.id.comment_et);
         reg_button = findViewById(R.id.reg_button);
 
-// 등록하기 버튼을 눌렀을 때 댓글 등록 함수 호출
+        // 등록하기 버튼을 눌렀을 때 댓글 등록 함수 호출
         reg_button.setOnClickListener(view -> {
             RegCmt regCmt = new RegCmt();
             regCmt.execute(userid, comment_et.getText().toString(), board_seq);
         });
 
-// 해당 게시물의 데이터 불러오기
+        // 해당 게시물의 데이터 불러오기
         InitData();
 
     }
 
     private void InitData(){
-
-// 해당 게시물의 데이터를 읽어오는 함수, 파라미터로 보드 번호를 넘김
+        // 해당 게시물의 데이터를 읽어오는 함수, 파라미터로 보드 번호를 넘김
         LoadBoard loadBoard = new LoadBoard();
         loadBoard.execute(board_seq);
 
     }
 
     class LoadBoard extends AsyncTask<String, Void, String> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -100,15 +96,15 @@ public class DetailActivity extends AppCompatActivity {
             super.onPostExecute(result);
             Log.d(TAG, "onPostExecute, " + result);
             try {
-// 결과값이 JSONArray 형태로 넘어오기 때문에
-// JSONArray, JSONObject 를 사용해서 파싱
+                // 결과값이 JSONArray 형태로 넘어오기 때문에
+                // JSONArray, JSONObject 를 사용해서 파싱
                 JSONArray jsonArray = null;
                 jsonArray = new JSONArray(result);
 
                 for(int i=0;i<jsonArray.length();i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-// Database 의 데이터들을 변수로 저장한 후 해당 TextView 에 데이터 입력
+                    // Database 의 데이터들을 변수로 저장한 후 해당 TextView 에 데이터 입력
                     String title = jsonObject.optString("title");
                     String content = jsonObject.optString("content");
                     String crt_dt = jsonObject.optString("crt_dt");
@@ -119,7 +115,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 }
 
-// 해당 게시물에 대한 댓글 불러오는 함수 호출, 파라미터로 게시물 번호 넘김
+                // 해당 게시물에 대한 댓글 불러오는 함수 호출, 파라미터로 게시물 번호 넘김
                 LoadCmt loadCmt = new LoadCmt();
                 loadCmt.execute(board_seq);
 
@@ -135,7 +131,7 @@ public class DetailActivity extends AppCompatActivity {
 
             String board_seq = params[0];
 
-// 호출할 php 파일 경로
+            // 호출할 php 파일 경로
             String server_url = "http://15.164.252.136/load_board_detail.php";
 
 
@@ -201,21 +197,19 @@ public class DetailActivity extends AppCompatActivity {
             super.onPostExecute(result);
             Log.d(TAG, "onPostExecute, " + result);
 
-// 댓글을 뿌릴 LinearLayout 자식뷰 모두 제거
+            // 댓글을 뿌릴 LinearLayout 자식뷰 모두 제거
             comment_layout.removeAllViews();
 
             try {
-
-// JSONArray, JSONObject 로 받은 데이터 파싱
+                // JSONArray, JSONObject 로 받은 데이터 파싱
                 JSONArray jsonArray = null;
                 jsonArray = new JSONArray(result);
 
-// custom_comment 를 불러오기 위한 객체
+                // custom_comment 를 불러오기 위한 객체
                 LayoutInflater layoutInflater = LayoutInflater.from(DetailActivity.this);
 
                 for(int i=0;i<jsonArray.length();i++){
-
-// custom_comment 의 디자인을 불러와서 사용
+                    // custom_comment 의 디자인을 불러와서 사용
                     View customView = layoutInflater.inflate(R.layout.activity_comment, null);
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
@@ -227,7 +221,7 @@ public class DetailActivity extends AppCompatActivity {
                     ((TextView)customView.findViewById(R.id.cmt_content_tv)).setText(content);
                     ((TextView)customView.findViewById(R.id.cmt_date_tv)).setText(crt_dt);
 
-// 댓글 레이아웃에 custom_comment 의 디자인에 데이터를 담아서 추가
+                    // 댓글 레이아웃에 custom_comment 의 디자인에 데이터를 담아서 추가
                     comment_layout.addView(customView);
                 }
 
@@ -306,25 +300,24 @@ public class DetailActivity extends AppCompatActivity {
             super.onPostExecute(result);
             Log.d(TAG, "onPostExecute, " + result);
 
-// 결과값이 성공으로 나오면
+            // 결과값이 성공으로 나오면
             if(result.equals("success")){
-
-//댓글 입력창의 글자는 공백으로 만듦
+                //댓글 입력창의 글자는 공백으로 만듦
                 comment_et.setText("");
 
-// 소프트 키보드 숨김처리
+                // 소프트 키보드 숨김처리
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(comment_et.getWindowToken(), 0);
 
-// 토스트메시지 출력
-                Toast.makeText(DetailActivity.this, "댓글이 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                // 토스트메시지 출력
+                //Toast.makeText(DetailActivity.this, "댓글이 등록되었습니다.", Toast.LENGTH_SHORT).show();
 
-// 댓글 불러오는 함수 호출
+                // 댓글 불러오는 함수 호출
                 LoadCmt loadCmt = new LoadCmt();
                 loadCmt.execute(board_seq);
             }else
             {
-                Toast.makeText(DetailActivity.this, result, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DetailActivity.this, result, Toast.LENGTH_SHORT).show();
             }
         }
 

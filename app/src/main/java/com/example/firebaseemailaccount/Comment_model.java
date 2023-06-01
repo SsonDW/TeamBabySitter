@@ -2,7 +2,6 @@ package com.example.firebaseemailaccount;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.sql.Date;
 
 public class Comment_model {
@@ -20,7 +19,7 @@ public class Comment_model {
 
     @SerializedName("created_at")
     @Expose
-    private Date created_at; // java.sql.Date -> yyyy-mm-dd 형식이어야 함
+    private Date created_at; // java.sql.Date (yyyy-mm-dd)
 
     @SerializedName("updated_at")
     @Expose
@@ -30,6 +29,7 @@ public class Comment_model {
     public Comment_model(String content){
         this.content = content;
     }
+
     public Integer getCommunityId(){
         return community_id;
     }

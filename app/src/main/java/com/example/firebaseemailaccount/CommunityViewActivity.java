@@ -12,7 +12,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -23,16 +22,12 @@ import retrofit2.Response;
 public class CommunityViewActivity extends Fragment {
     Call<Community_model> call;
     Call<Comment_model> call2;
-    // CommunityActivity ca = new CommunityActivity();
-    ListActivity la = new ListActivity();
     static Integer post_id;
     TextView title_txt, content_txt, like_count_txt;
     EditText comment_txt;
     Button comment_button, list_button;
     ListView listView;
     ListViewAdapter adapter;
-    ListViewItem listViewitem;
-
     ScaleAnimation scaleAnimation;
     BounceInterpolator bounceInterpolator;
     CompoundButton button_like;
@@ -52,7 +47,6 @@ public class CommunityViewActivity extends Fragment {
         adapter = new ListViewAdapter();
         listView = (ListView) view.findViewById(R.id.listView);
         title_txt = view.findViewById(R.id.title_txt);
-        // created_at_txt = view.findViewById(R.id.created_at_txt);
         content_txt = view.findViewById(R.id.content_txt);
         comment_txt = view.findViewById(R.id.comment_txt);
         comment_button = view.findViewById(R.id.comment_button);
@@ -61,7 +55,6 @@ public class CommunityViewActivity extends Fragment {
         button_like = view.findViewById(R.id.button_like);
 
         listView.setAdapter(adapter);
-
 
         // ------------------------------ 게시글 view ------------------------------
         call = Retrofit_client.getApiService().community_detail_get(post_id);
@@ -113,25 +106,19 @@ public class CommunityViewActivity extends Fragment {
 
 
         // ----------------------------------- 댓글 작성 후 등록 -----------------------------------
-        comment_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Comment_model cm = new Comment_model(comment_txt.getText().toString());
-                call2 = Retrofit_client.getCommentApiService().comment_post(cm, post_id);
-                call2.enqueue(new Callback<Comment_model>() {
-                    //콜백 받는 부분
-                    @Override
-                    public void onResponse(Call<Comment_model> call, Response<Comment_model> response) {
-                        Toast.makeText(getContext(), "댓글 등록 성공", Toast.LENGTH_LONG).show();
-                        Comment_model result = response.body();
-                        comment_txt.setText(""); // 댓글 등록 후 지워버리기
-                    }
-                    @Override
-                    public void onFailure(Call<Comment_model> call, Throwable t) {
-                        Toast.makeText(getContext(), "댓글 등록 실패", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
+        comment_button.setOnClickListener(v -> {
+            Comment_model cm = new Comment_model(comment_txt.getText().toString());
+            call2 = Retrofit_client.getCommentApiService().comment_post(cm, post_id);
+            call2.enqueue(new Callback<Comment_model>() {
+                //콜백 받는 부분
+                @Override
+                public void onResponse(Call<Comment_model> call, Response<Comment_model> response) {
+                    comment_txt.setText(""); // 댓글 등록 후 지워버리기
+                }
+                @Override
+                public void onFailure(Call<Comment_model> call, Throwable t) {
+                }
+            });
         });
 
         // ----------------------------------- 좋아요 toggle + 좋아요 count db에 반영하기 -----------------------------------
@@ -140,50 +127,38 @@ public class CommunityViewActivity extends Fragment {
         bounceInterpolator = new BounceInterpolator();
         scaleAnimation.setInterpolator(bounceInterpolator);
 
-        button_like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                compoundButton.startAnimation(scaleAnimation);
-                call = Retrofit_client.getApiService().community_detail_get(post_id);
-                call.enqueue(new Callback<Community_model>() {
-                    //콜백 받는 부분
-                    @Override
-                    public void onResponse(Call<Community_model> call, Response<Community_model> response) {
-                        Community_model result = response.body();
-                        Integer temp_count = like_count + 1;
-                        // Toast.makeText(getContext(), "좋아요 개수: " + Integer.toString(like_count), Toast.LENGTH_LONG).show();
-                        like_count_txt.setText(temp_count.toString());
+        button_like.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            compoundButton.startAnimation(scaleAnimation);
+            call = Retrofit_client.getApiService().community_detail_get(post_id);
+            call.enqueue(new Callback<Community_model>() {
+                //콜백 받는 부분
+                @Override
+                public void onResponse(Call<Community_model> call, Response<Community_model> response) {
+                    Integer temp_count = like_count + 1;
+                    like_count_txt.setText(temp_count.toString());
 
-                        // DB에 추가된 좋아요 수 반영
-                        Community_model user_like = new Community_model(temp_count);
-                        call = Retrofit_client.getApiService().community_like_put(user_like, post_id);
-                        call.enqueue(new Callback<Community_model>() {
-                            //콜백 받는 부분
-                            @Override
-                            public void onResponse(Call<Community_model> call, Response<Community_model> response) {
-                                Toast.makeText(getContext(), "좋아요 개수 반영 성공", Toast.LENGTH_LONG).show();
-                            }
-                            @Override
-                            public void onFailure(Call<Community_model> call, Throwable t) {
-                                Toast.makeText(getContext(), "좋아요 개수 반영 실패", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                    @Override
-                    public void onFailure(Call<Community_model> call, Throwable t) {
-                    }
-                });
-            }
+                    // DB에 추가된 좋아요 수 반영
+                    Community_model user_like = new Community_model(temp_count);
+                    call = Retrofit_client.getApiService().community_like_put(user_like, post_id);
+                    call.enqueue(new Callback<Community_model>() {
+                        //콜백 받는 부분
+                        @Override
+                        public void onResponse(Call<Community_model> call, Response<Community_model> response) {
+                        }
+                        @Override
+                        public void onFailure(Call<Community_model> call, Throwable t) {
+                        }
+                    });
+                }
+                @Override
+                public void onFailure(Call<Community_model> call, Throwable t) {
+                }
+            });
         });
 
 
         // ----------------------------------- 전체 게시글 목록으로 돌아가는 버튼 -----------------------------------
-        list_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((PageActivity)getActivity()).replaceFragment(ListActivity.newInstance());
-            }
-        });
+        list_button.setOnClickListener(v -> ((PageActivity)getActivity()).replaceFragment(ListActivity.newInstance()));
         return view;
     }
 }

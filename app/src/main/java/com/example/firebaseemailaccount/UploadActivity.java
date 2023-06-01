@@ -3,12 +3,10 @@ package com.example.firebaseemailaccount;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -58,8 +56,8 @@ public class UploadActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     class RegBoard extends AsyncTask<String, Void, String> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

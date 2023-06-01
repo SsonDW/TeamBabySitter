@@ -1,5 +1,7 @@
 package com.example.firebaseemailaccount;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,18 +14,16 @@ public class Cookie_jar implements CookieJar {
     private List<Cookie> cookies;
 
     @Override
-    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-        // cookieStore.put(url.host(), cookies);
+    public void saveFromResponse(@NonNull HttpUrl url, @NonNull List<Cookie> cookies) {
         this.cookies =  cookies;
     }
 
+    @NonNull
     @Override
-    public List<Cookie> loadForRequest(HttpUrl url) {
-        // List<Cookie> cookies = cookieStore.get(url.host());
-        // return cookies != null ? cookies : new ArrayList<Cookie>();
+    public List<Cookie> loadForRequest(@NonNull HttpUrl url) {
         if (cookies != null)
             return cookies;
-        return new ArrayList<Cookie>();
+        return new ArrayList<>();
 
     }
 }

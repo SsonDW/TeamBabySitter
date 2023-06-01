@@ -3,10 +3,7 @@ package com.example.firebaseemailaccount;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class UserAccount
-{
+public class UserAccount {
     @SerializedName("id")
     @Expose
     private int id;
@@ -62,13 +59,6 @@ public class UserAccount
         return id;
     }
 
-    //    public int getIdByEmail(String email){
-//        if(this.email == email) {
-//            return id;
-//        } else {
-//            return 0;
-//        }
-//    }
     public String getEmail(){
         return email;
     }
@@ -84,10 +74,10 @@ public class UserAccount
     public String getBabyGender(){
         return baby_gender;
     }
+
     public String getUserImage(){
         return user_image;
     }
-
 
     public void setEmail(String email){
         this.email = email;

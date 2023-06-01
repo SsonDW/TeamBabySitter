@@ -1,14 +1,11 @@
 package com.example.firebaseemailaccount;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -18,20 +15,17 @@ import retrofit2.Response;
 
 public class CommunityQnaActivity extends Fragment {
     Call<Community_model> call;
-
     ListView listView;
     ListViewAdapter adapter;
-    ListViewItem listViewitem;
     Button listButton;
     static int list_count;
-    int i;
     public static CommunityQnaActivity newInstance() {
         return new CommunityQnaActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_qua, null);
+        View view = inflater.inflate(R.layout.activity_qna, null);
 
         adapter = new ListViewAdapter();
 
@@ -46,7 +40,7 @@ public class CommunityQnaActivity extends Fragment {
             @Override
             public void onResponse(Call<Community_model> call, Response<Community_model> response) {
                 list_count = response.body().getRowCount();
-                for(i=1;i<=list_count;i++) {
+                for(int i=1; i<=list_count; i++) {
                     call = Retrofit_client.getApiService().community_detail_get(i);
                     call.enqueue(new Callback<Community_model>() {
                         @Override
@@ -68,32 +62,20 @@ public class CommunityQnaActivity extends Fragment {
             }
         });
 
-        // listView의 항목 중 하나 클릭 시
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ListViewItem item = (ListViewItem) adapterView.getItemAtPosition(i);
-                String title = item.getItemTitle();
-                int id = item.getItemId();
-                Toast.makeText(getContext(), Integer.toString(id), Toast.LENGTH_SHORT).show();
+        // listView 클릭이벤트
+        listView.setOnItemClickListener((adapterView, view1, i, l) -> {
+            ListViewItem item = (ListViewItem) adapterView.getItemAtPosition(i);
+            CommunityViewActivity fragment = CommunityViewActivity.newInstance(item.getItemId());
 
-                CommunityViewActivity fragment = CommunityViewActivity.newInstance(id);
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", item.getItemId());
+            fragment.setArguments(bundle);
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", id);
-                fragment.setArguments(bundle);
-
-                ((PageActivity)getActivity()).replaceFragment(fragment);
-            }
+            ((PageActivity)getActivity()).replaceFragment(fragment);
         });
 
         // ----------------------------------- 전체 게시글 목록으로 돌아가는 버튼 -----------------------------------
-        listButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((PageActivity)getActivity()).replaceFragment(ListActivity.newInstance());
-            }
-        });
+        listButton.setOnClickListener(v -> ((PageActivity)getActivity()).replaceFragment(ListActivity.newInstance()));
 
         return view;
     }

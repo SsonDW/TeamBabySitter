@@ -1,9 +1,9 @@
 package com.example.firebaseemailaccount;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -22,8 +22,6 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,10 +65,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @NonNull
     public static MapFragment newInstance() {
-        MapFragment fragment = new MapFragment();
-        return fragment;
+        return new MapFragment();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -107,21 +105,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         phoneTextView.setText("서울특별시 종로구 율곡로23길 3");
         addressTextView.setText("★ 판타노디저트 ★");
         optionTextView1.setText("수유실X, 아기의자O, 아기식기O");
-        optionTextView1.setText("자동문X, 놀이방O, 경사로O");
+        optionTextView2.setText("자동문X, 놀이방O, 경사로O");
         imageView.setImageResource(R.drawable.pantanodessert); // 이미지 초기화
 
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                // 슬라이딩 패널의 슬라이드 상태 변경 이벤트 처리
             }
 
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                // 슬라이딩 패널의 상태 변경 이벤트 처리
             }
         });
-
         return rootView;
     }
 
@@ -145,20 +140,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                     InfoWindow infoWindow = new InfoWindow();
                     infoWindow.setAdapter(new InfoWindow.ViewAdapter() {
+                        @SuppressLint("SetTextI18n")
                         @NonNull
                         @Override
                         public View getView(@NonNull InfoWindow infoWindow) {
                             // 정보 창의 내용을 설정
-                            View infoWindowView = LayoutInflater.from(getContext()).inflate(R.layout.info_window_layout, null);
+                            @SuppressLint("InflateParams") View infoWindowView = LayoutInflater.from(getContext()).inflate(R.layout.info_window_layout, null);
                             TextView infoOption1 = infoWindowView.findViewById(R.id.titleTextView);
                             TextView infoOption2 = infoWindowView.findViewById(R.id.addressTextView);
 
-                            infoOption1.setText(String.valueOf(dataSnapshot.child("NursingRoom").getValue())
+                            infoOption1.setText(dataSnapshot.child("NursingRoom").getValue()
                                     + String.valueOf(dataSnapshot.child("BabyChair").getValue())
-                                    + String.valueOf(dataSnapshot.child("BabyTableware").getValue()));
-                            infoOption2.setText(String.valueOf(dataSnapshot.child("AutomaticDoors").getValue())
+                                    + dataSnapshot.child("BabyTableware").getValue());
+                            infoOption2.setText(dataSnapshot.child("AutomaticDoors").getValue()
                                     + String.valueOf(dataSnapshot.child("PlayRoom").getValue())
-                                    + String.valueOf(dataSnapshot.child("Ramp").getValue()));
+                                    + dataSnapshot.child("Ramp").getValue());
 
                             return infoWindowView;
                         }
@@ -172,13 +168,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         phoneTextView.setText(String.valueOf(dataSnapshot.child("PhoneNumber").getValue()));
                         addressTextView.setText(String.valueOf(dataSnapshot.child(name + "Address").getValue()));
                         // 경사로, 아기식기, 아기용품 등등 관련 정보 표시
-                        String optionText1 = String.valueOf(dataSnapshot.child("NursingRoom").getValue())
+                        String optionText1 = dataSnapshot.child("NursingRoom").getValue()
                                 + String.valueOf(dataSnapshot.child("BabyChair").getValue())
-                                + String.valueOf(dataSnapshot.child("BabyTableware").getValue());
+                                + dataSnapshot.child("BabyTableware").getValue();
                         optionTextView1.setText(optionText1);
-                        String optionText2 = String.valueOf(dataSnapshot.child("AutomaticDoors").getValue())
+                        String optionText2 = dataSnapshot.child("AutomaticDoors").getValue()
                                 + String.valueOf(dataSnapshot.child("PlayRoom").getValue())
-                                + String.valueOf(dataSnapshot.child("Ramp").getValue());
+                                + dataSnapshot.child("Ramp").getValue();
                         optionTextView1.setText(optionText1);
                         optionTextView2.setText(optionText2);
                         averageRatingBar.setRating(0.0f);
@@ -213,20 +209,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         // StorageReference 생성
                         StorageReference storageRef = storage.getReference().child(name + ".png");
                         // 이미지 다운로드 URL 가져오기
-                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                // 다운로드 URL을 사용하여 이미지 로드 등의 작업 수행
-                                String imageUrl = uri.toString();
-                                // 이미지를 imageView에 설정하거나 처리하는 등의 작업 수행
-                                // Glide 등의 라이브러리를 사용하여 이미지 로드를 쉽게 처리할 수 있습니다.
-                                Glide.with(getContext()).load(imageUrl).into(imageView);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // 이미지 다운로드 실패 시 처리할 작업 수행
-                            }
+                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            // 다운로드 URL을 사용하여 이미지 로드 등의 작업 수행
+                            String imageUrl = uri.toString();
+                            // 이미지를 imageView에 설정하거나 처리하는 등의 작업 수행
+                            // Glide 등의 라이브러리를 사용하여 이미지 로드를 쉽게 처리할 수 있습니다.
+                            Glide.with(getContext()).load(imageUrl).into(imageView);
+                        }).addOnFailureListener(exception -> {
+                            // 이미지 다운로드 실패 시 처리할 작업 수행
                         });
 
                         // Firestore 인스턴스 가져오기
@@ -258,29 +248,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                         totalRating += ratingDouble;
                                         count++;
                                         // 경사로, 아기식기등 옵션 사항 표시하기
-//                                        if(documentSnapshot.getBoolean("hasRamp") == true) {
+//                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasRamp"))) {
 //                                            Info[info_count++] = "경사로 ";
 //                                        }
-                                        if(documentSnapshot.getBoolean("hasAutomaticDoor") == true) {
+                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasAutomaticDoor"))) {
                                             Info[info_count++] = "자동문 ";
                                         }
-                                        if(documentSnapshot.getBoolean("hasBabyChair") == true) {
+                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasBabyChair"))) {
                                             Info[info_count++] = "아기의자 ";
                                         }
-                                        if(documentSnapshot.getBoolean("hasNursingRoom") == true) {
+                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasNursingRoom"))) {
                                             Info[info_count++] = "수유실 ";
                                         }
-                                        if(documentSnapshot.getBoolean("hasPlayRoom") == true) {
+                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasPlayRoom"))) {
                                             Info[info_count++] = "놀이방 ";
                                         }
-                                        if(documentSnapshot.getBoolean("hasTableWare") == true) {
+                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasTableWare"))) {
                                             Info[info_count] = "아기식기 ";
                                         }
-                                        String InfoOption = "";
+                                        StringBuilder InfoOption = new StringBuilder();
                                         for(int j = 0; j<info_count; j++) {
-                                            InfoOption += Info[j];
+                                            InfoOption.append(Info[j]);
                                         }
-                                        reviewData.add(InfoOption);
+                                        reviewData.add(InfoOption.toString());
                                         // reviewText 리스트뷰에 추가하기
                                         String temp = documentSnapshot.getString("reviewText");
                                         reviewData.add(temp);
@@ -293,10 +283,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                                         // averageRatingBar에 평균값 설정
                                         averageRatingBar.setRating(averageRatingFloat);
-
-                                        // 평균값을 사용하여 원하는 동작 수행
-                                        // 예: TextView에 평균값 설정 등
-                                        // ...
                                     }
                                     ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, reviewData);
                                     listView.setAdapter(adapter); // listView를 adater랑 연결해서 데이터 넣어주기
@@ -305,7 +291,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             } else {
                                 // 쿼리 실패 시 동작
                                 Log.e("ReviewActivity", "Error getting reviews", task.getException());
-                                // 예: 오류 메시지 표시 등
                             }
                         });
 

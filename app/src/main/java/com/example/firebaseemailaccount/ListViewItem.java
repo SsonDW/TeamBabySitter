@@ -1,7 +1,5 @@
 package com.example.firebaseemailaccount;
 
-import retrofit2.Call;
-
 public class ListViewItem {
     private int id;
     private String contentStr;
@@ -22,6 +20,7 @@ public class ListViewItem {
     public int getItemId() {
         return this.id;
     }
+
     public String getItemContent() {
         return this.contentStr;
     }

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class ListViewAdapter extends BaseAdapter {
     private TextView titleTextView;
     private TextView contentTextView;
-    private int id;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
 
@@ -26,7 +25,6 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos = position;
         final Context context = parent.getContext();
 
         if (convertView == null) {
@@ -50,11 +48,6 @@ public class ListViewAdapter extends BaseAdapter {
         return position;
     }
 
-    public int getItemModelId(ListViewAdapter adapter) {
-        // id = adapter.
-        return id;
-    }
-
     public Object getItem(int position) {
         return listViewItemList.get(position);
     }
@@ -68,19 +61,13 @@ public class ListViewAdapter extends BaseAdapter {
         item.setItemContent(content);
 
         listViewItemList.add(item);
-
-        // list 호출 시 버벅거림 없도록
-        // 효과X.
-        // this.notifyDataSetChanged(); // list 호출 시 버벅거림 없도록
     }
 
     // comment list 관련
     public void addCommentItem(String content) {
         ListViewItem item = new ListViewItem();
 
-        // item.setItemId(id);
         item.setItemContent(content);
-
         listViewItemList.add(item);
     }
 
@@ -88,5 +75,4 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.clear();
         notifyDataSetChanged();
     }
-
 }

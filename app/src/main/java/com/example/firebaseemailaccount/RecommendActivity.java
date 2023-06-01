@@ -1,5 +1,6 @@
 package com.example.firebaseemailaccount;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,10 @@ public class RecommendActivity extends Fragment {
         return new RecommendActivity();
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstaceState) {
-        View view = inflater.inflate(R.layout.activity_recommend, null);
-        return view;
+        return inflater.inflate(R.layout.activity_recommend, null);
     }
 
 }

@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ReviewActivity extends AppCompatActivity {
 
     private EditText reviewText;
-    private Button saveButton;
     private RadioButton Ramp;
     private RadioButton tableWare;
     private RadioButton babyChair;
@@ -36,7 +35,7 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review);
 
         reviewText = findViewById(R.id.reviewtext);
-        saveButton = findViewById(R.id.savebutton);
+        Button saveButton = findViewById(R.id.savebutton);
         Ramp = findViewById(R.id.ramp);
         tableWare = findViewById(R.id.tableware);
         babyChair = findViewById(R.id.babychair);
@@ -94,7 +93,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     }
 
-    public class Review {
+    public static class Review {
         private String reviewText;
         private boolean hasRamp;
         private boolean hasTableWare;
@@ -104,10 +103,6 @@ public class ReviewActivity extends AppCompatActivity {
         private boolean hasAutomaticDoor;
         private float rating;
         private String storeName;
-
-        public Review() {
-            // Default constructor required for Firebase
-        }
 
         public Review(String storeName, String reviewText, boolean hasRamp, boolean hasTableWare, boolean hasBabyChair,
                       boolean hasNursingRoom, boolean hasPlayRoom, boolean hasAutomaticDoor, float rating) {
@@ -131,32 +126,30 @@ public class ReviewActivity extends AppCompatActivity {
         public String getReviewText() {
             return reviewText;
         }
-
+        @PropertyName("hasRamp")
+        public boolean getHasRamp() {
+            return hasRamp;
+        }
         @PropertyName("hasTableWare")
         public boolean getHasTableWare() {
             return hasTableWare;
         }
-
         @PropertyName("hasBabyChair")
         public boolean getHasBabyChair() {
             return hasBabyChair;
         }
-
         @PropertyName("hasNursingRoom")
         public boolean getHasNursingRoom() {
             return hasNursingRoom;
         }
-
         @PropertyName("hasPlayRoom")
         public boolean getHasPlayRoom() {
             return hasPlayRoom;
         }
-
         @PropertyName("hasAutomaticDoor")
         public boolean getHasAutomaticDoor() {
             return hasAutomaticDoor;
         }
-
         @PropertyName("rating")
         public float getRating() {
             return rating;
@@ -166,45 +159,38 @@ public class ReviewActivity extends AppCompatActivity {
         public void setStoreName(String storeName) {
             this.storeName = storeName;
         }
-
         @PropertyName("reviewText")
         public void setReviewText(String reviewText) {
             this.reviewText = reviewText;
         }
-
+        @PropertyName("hasRamp")
+        public void setHasRamp() {
+            this.hasRamp = hasRamp;
+        }
         @PropertyName("hasTableWare")
         public void setHasTableWare() {
             this.hasTableWare = hasTableWare;
         }
-
         @PropertyName("hasBabyChair")
         public void setHasBabyChair() {
             this.hasBabyChair = hasBabyChair;
         }
-
         @PropertyName("hasNursingRoom")
         public void setHasNursingRoom() {
             this.hasNursingRoom = hasNursingRoom;
         }
-
         @PropertyName("hasPlayRoom")
         public void setHasPlayRoom() {
             this.hasPlayRoom = hasPlayRoom;
         }
-
         @PropertyName("hasAutomaticDoor")
         public void setHasAutomaticDoor() {
             this.hasAutomaticDoor = hasAutomaticDoor;
         }
-
         @PropertyName("rating")
         public void setRating() {
             this.rating = rating;
         }
-
-        // Optional: Additional methods or customization
-        // ...
     }
-
 
 }

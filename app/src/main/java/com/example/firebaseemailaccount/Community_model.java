@@ -78,14 +78,18 @@ public class Community_model {
     public int getRowCount(){
         return row_count;
     }
+
     public int getCommentsCount(){
         return comments_count;
     }
+
     public int getLikeCount(){
         return like_count;
     }
+
     public String getCategory(){
         return category;
     }
+
     public Integer getAllCommentsCount() { return all_comments_count; }
 }

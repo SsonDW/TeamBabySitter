@@ -1,12 +1,12 @@
 package com.example.firebaseemailaccount;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -49,100 +49,75 @@ public class LoginActivity extends AppCompatActivity {
 
             call.enqueue(new Callback<UserAccount>() {
                 @Override
-                public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
+                public void onResponse(@NonNull Call<UserAccount> call, @NonNull Response<UserAccount> response) {
                     if(response.isSuccessful()){
-                        // login 할 때마다 쿠키 값도 달라지니까 자동 로그인이어도 cookie값 새로 저장?
-                        // SharedPreferences.Editor editor = sharedPref.edit();
-                        // editor.putString("cookie", response.body().getJwt());
-                        // editor.apply();
-
-                        Toast.makeText(LoginActivity.this, "자동 로그인 성공", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, PageActivity.class);
                         startActivity(intent); // 화면 전환
-                    }else{
-                        Toast.makeText(LoginActivity.this, "자동 로그인 실패1", Toast.LENGTH_LONG).show();
                     }
                 }
                 @Override
-                public void onFailure(Call<UserAccount> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "자동 로그인 실패2", Toast.LENGTH_LONG).show();
+                public void onFailure(@NonNull Call<UserAccount> call, @NonNull Throwable t) {
                 }
             });
         }
 
-        autoLogin.setOnClickListener(new CheckBox.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btn_login.setOnClickListener(new View.OnClickListener() {
+        autoLogin.setOnClickListener(view -> btn_login.setOnClickListener(view1 -> {
+            // ---------------- 자동 로그인에 체크가 되어 있다면 ----------------
+            // + 첫 로그인일 경우
+            if (email == null && password == null) { // autoLogin.isChecked() &&
+                UserAccount user = new UserAccount(et_email.getText().toString(), et_pwd.getText().toString());
+                call = Retrofit_client.getUserApiService().user_login(user);
+
+                call.enqueue(new Callback<UserAccount>() {
                     @Override
-                    public void onClick(View view) {
-                        // ---------------- 자동 로그인에 체크가 되어 있다면 ----------------
-                        // + 첫 로그인일 경우
-                        if (email == null && password == null) { // autoLogin.isChecked() &&
-                            UserAccount user = new UserAccount(et_email.getText().toString(), et_pwd.getText().toString());
-                            call = Retrofit_client.getUserApiService().user_login(user);
-
-                            call.enqueue(new Callback<UserAccount>() {
-                                @Override
-                                public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
-                                    if (response.isSuccessful()) {
-                                        // ---------------- SharedPreferences에 cookie 등등 저장하기 ----------------
-                                        // 공유 환경설정 파일 이름 지정
-                                        editor.putString("cookie", response.body().getJwt());
-                                        editor.putString("email", et_email.getText().toString());
-                                        editor.putString("password", et_pwd.getText().toString());
-                                        editor.apply();
-
-                                        Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(LoginActivity.this, PageActivity.class);
-                                        startActivity(intent); // 화면 전환
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_LONG).show();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<UserAccount> call, Throwable t) {
-                                    Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-        });
-
-        // 그냥 일반(자동X) 로그인일 경우
-        btn_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!autoLogin.isChecked()) {
-                    UserAccount user = new UserAccount(et_email.getText().toString(), et_pwd.getText().toString());
-                    call = Retrofit_client.getUserApiService().user_login(user);
-
-                    call.enqueue(new Callback<UserAccount>() {
-                        //콜백 받는 부분
-                        @Override
-                        public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
-                            // Toast.makeText(LoginActivity.this, "코드 에러: " + Integer.toString(response.code()), Toast.LENGTH_LONG).show();
-                            // if (response.isSuccessful()) {
-                            // ---------------- SharedPreferences에 cookie 저장하기 ----------------
+                    public void onResponse(@NonNull Call<UserAccount> call, @NonNull Response<UserAccount> response) {
+                        if (response.isSuccessful()) {
+                            // ---------------- SharedPreferences에 cookie 등등 저장하기 ----------------
+                            // 공유 환경설정 파일 이름 지정
+                            assert response.body() != null;
                             editor.putString("cookie", response.body().getJwt());
+                            editor.putString("email", et_email.getText().toString());
+                            editor.putString("password", et_pwd.getText().toString());
                             editor.apply();
 
                             Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LoginActivity.this, PageActivity.class);
                             startActivity(intent); // 화면 전환
-                            // } else {
-                            //     Toast.makeText(LoginActivity.this, "로그인 실패1", Toast.LENGTH_LONG).show();
-                            // }
+                        } else {
+                            Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_LONG).show();
                         }
-                        @Override
-                        public void onFailure(Call<UserAccount> call, Throwable t) {
-                            Toast.makeText(LoginActivity.this, "로그인 실패2", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<UserAccount> call, @NonNull Throwable t) {
+                        Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }));
+
+        // 그냥 일반(자동X) 로그인일 경우
+        btn_login.setOnClickListener(view -> {
+            if (!autoLogin.isChecked()) {
+                UserAccount user = new UserAccount(et_email.getText().toString(), et_pwd.getText().toString());
+                call = Retrofit_client.getUserApiService().user_login(user);
+
+                call.enqueue(new Callback<UserAccount>() {
+                    //콜백 받는 부분
+                    @Override
+                    public void onResponse(@NonNull Call<UserAccount> call, @NonNull Response<UserAccount> response) {
+                        // ---------------- SharedPreferences에 cookie 저장하기 ----------------
+                        assert response.body() != null;
+                        editor.putString("cookie", response.body().getJwt());
+                        editor.apply();
+
+                        Intent intent = new Intent(LoginActivity.this, PageActivity.class);
+                        startActivity(intent); // 화면 전환
+                    }
+                    @Override
+                    public void onFailure(@NonNull Call<UserAccount> call, @NonNull Throwable t) {
+                    }
+                });
             }
         });
 

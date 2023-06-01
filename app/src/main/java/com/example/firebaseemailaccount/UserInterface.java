@@ -4,9 +4,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface UserInterface {
     @POST("/user/register/") // user 회원가입
@@ -26,9 +26,9 @@ public interface UserInterface {
     @GET("/user/view/") // user account 확인(mypage 안에서 동작)
     Call<UserAccount> user_view(@Header("token") String token);
 
-//    @PUT("user/view/{id}") // user account 수정(mypage 안에서 동작)
-//    Call<UserAccount> user_update(@Body UserAccount user, @Path("id") int id);
-//
-//    @GET("user/view/{id}") // user account 확인(mypage 안에서 동작)
-//    Call<UserAccount> user_view(@Path("id") int id);
+    @PUT("user/view/{id}") // user account 수정(mypage 안에서 동작)
+    Call<UserAccount> user_update(@Body UserAccount user, @Path("id") int id);
+
+    @GET("user/view/{id}") // user account 확인(mypage 안에서 동작)
+    Call<UserAccount> user_view(@Path("id") int id);
 }

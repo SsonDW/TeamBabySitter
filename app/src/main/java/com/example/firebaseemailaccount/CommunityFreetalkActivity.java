@@ -1,11 +1,9 @@
 package com.example.firebaseemailaccount;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,13 +16,11 @@ import retrofit2.Response;
 
 public class CommunityFreetalkActivity extends Fragment {
     Call<Community_model> call;
-
     ListView listView;
     ListViewAdapter adapter;
-    ListViewItem listViewitem;
     Button listButton;
     static int list_count;
-    int i;
+//    int i;
     public static CommunityFreetalkActivity newInstance() {
         return new CommunityFreetalkActivity();
     }
@@ -46,7 +42,7 @@ public class CommunityFreetalkActivity extends Fragment {
             @Override
             public void onResponse(Call<Community_model> call, Response<Community_model> response) {
                 list_count = response.body().getRowCount();
-                for(i=1;i<=list_count;i++) {
+                for(int i=1; i<=list_count; i++) {
                     call = Retrofit_client.getApiService().community_detail_get(i);
                     call.enqueue(new Callback<Community_model>() {
                         @Override
@@ -54,7 +50,7 @@ public class CommunityFreetalkActivity extends Fragment {
                             Community_model result = response.body();
                             if(response.isSuccessful() && result.getCategory().equals("free")) {
                                 adapter.addItem(result.getId(), result.getTitle(), result.getContent());
-                                adapter.notifyDataSetChanged(); // 꼭 반영해줘야 list에 제대로 addItem됨
+                                adapter.notifyDataSetChanged();
                             }
                         }
                         @Override
@@ -68,23 +64,20 @@ public class CommunityFreetalkActivity extends Fragment {
             }
         });
 
-        // listView의 항목 중 하나 클릭 시
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ListViewItem item = (ListViewItem) adapterView.getItemAtPosition(i);
-                String title = item.getItemTitle();
-                int id = item.getItemId();
-                Toast.makeText(getContext(), Integer.toString(id), Toast.LENGTH_SHORT).show();
+        // listView 항목 클릭이벤트
+        listView.setOnItemClickListener((adapterView, view1, i, l) -> {
+            ListViewItem item = (ListViewItem) adapterView.getItemAtPosition(i);
+            String title = item.getItemTitle();
+            int id = item.getItemId();
+            Toast.makeText(getContext(), Integer.toString(id), Toast.LENGTH_SHORT).show();
 
-                CommunityViewActivity fragment = CommunityViewActivity.newInstance(id);
+            CommunityViewActivity fragment = CommunityViewActivity.newInstance(id);
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", id);
-                fragment.setArguments(bundle);
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", id);
+            fragment.setArguments(bundle);
 
-                ((PageActivity)getActivity()).replaceFragment(fragment);
-            }
+            ((PageActivity)getActivity()).replaceFragment(fragment);
         });
 
         // ----------------------------------- 전체 게시글 목록으로 돌아가는 버튼 -----------------------------------

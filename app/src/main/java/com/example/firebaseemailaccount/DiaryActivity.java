@@ -46,7 +46,6 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
         Log.i(TAG,"onCreateView");
 
         view=inflater.inflate(R.layout.activity_diary_main,container,false);
-
         init();
 
         return view;
@@ -63,11 +62,11 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
         saveBtn = view.findViewById(R.id.save_btn);
         saveBtn.setBackgroundColor(Color.parseColor("#F6FFA6"));
         loadBtn = view.findViewById(R.id.load_btn);
-       loadBtn.setBackgroundColor(Color.parseColor("#F3BCC8"));
+        loadBtn.setBackgroundColor(Color.parseColor("#F3BCC8"));
         timerButton = view.findViewById(R.id.timer_btn);
         timerButton.setBackgroundColor(Color.parseColor("#7aa5e9"));
         timetable = view.findViewById(R.id.timetable);
-        // timetable.setHeaderHighlight(2);
+
         initView();
     }
 
@@ -77,15 +76,12 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
         saveBtn.setOnClickListener(this);
         loadBtn.setOnClickListener(this);
         timerButton.setOnClickListener(this);
-        timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
-            @Override
-            public void OnStickerSelected(int idx, ArrayList<Schedule> schedules) {
-                Intent i = new Intent(context, EditActivity.class);
-                i.putExtra("mode",REQUEST_EDIT);
-                i.putExtra("idx", idx);
-                i.putExtra("schedules", schedules);
-                startActivityForResult(i,REQUEST_EDIT);
-            }
+        timetable.setOnStickerSelectEventListener((idx, schedules) -> {
+            Intent i = new Intent(context, EditActivity.class);
+            i.putExtra("mode",REQUEST_EDIT);
+            i.putExtra("idx", idx);
+            i.putExtra("schedules", schedules);
+            startActivityForResult(i,REQUEST_EDIT);
         });
     }
 
@@ -93,13 +89,11 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.add_btn:
-                // Intent i = new Intent(this,EditActivity.class);yutytrewqazASXC DVFGB:"?BGHV CFXDSZ
                 // 수정
                 Intent i = new Intent(getContext(),EditActivity.class);
                 i.putExtra("mode",REQUEST_ADD);
                 startActivityForResult(i,REQUEST_ADD);
                 break;
-
             case R.id.clear_btn:
                 timetable.removeAll();
                 break;
@@ -112,7 +106,6 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
             case R.id.timer_btn:
                 Intent intent = new Intent(getContext(), TimerActivity.class);
                 startActivity(intent);
-
         }
 
     }
