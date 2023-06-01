@@ -106,7 +106,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         addressTextView.setText("★ 판타노디저트 ★");
         optionTextView1.setText("수유실X, 아기의자O, 아기식기O");
         optionTextView2.setText("자동문X, 놀이방O, 경사로O");
-        imageView.setImageResource(R.drawable.pantanodessert); // 이미지 초기화
+        imageView.setImageResource(R.drawable.ic_empty_like); // 이미지 초기화
 
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override

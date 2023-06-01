@@ -111,7 +111,6 @@ public class ListActivity extends Fragment {
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             ListViewItem item = (ListViewItem) adapterView.getItemAtPosition(i);
             int id = item.getItemId();
-            Toast.makeText(getContext(), Integer.toString(id), Toast.LENGTH_SHORT).show();
 
             CommunityViewActivity fragment = CommunityViewActivity.newInstance(id);
 

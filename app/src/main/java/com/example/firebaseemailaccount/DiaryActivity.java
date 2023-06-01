@@ -111,7 +111,6 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
     }
 
 
-    // 에러 떠서 protected에서 public으로 수정해봄
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode){
@@ -139,28 +138,20 @@ public class DiaryActivity extends Fragment implements View.OnClickListener {
 
     /** save timetableView's data to SharedPreferences in json format */
     private void saveByPreference(String data){
-        // SharedPreferences mPref = PreferenceManager.getDefaultSharedPreferences(this);
-        // 수정
         SharedPreferences mPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = mPref.edit();
         editor.putString("timetable_demo",data);
         editor.commit();
-        // Toast.makeText(this,"saved!",Toast.LENGTH_SHORT).show();
-        // 수정
-        Toast.makeText(getContext(),"saved!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"저장 성공",Toast.LENGTH_SHORT).show();
     }
 
     /** get json data from SharedPreferences and then restore the timetable */
     private void loadSavedData(){
         timetable.removeAll();
-        // SharedPreferences mPref = PreferenceManager.getDefaultSharedPreferences(this);
-        // 수정
         SharedPreferences mPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         String savedData = mPref.getString("timetable_demo","");
         if(savedData == null && savedData.equals("")) return;
         timetable.load(savedData);
-        // Toast.makeText(this,"loaded!",Toast.LENGTH_SHORT).show();
-        // 수정
-        Toast.makeText(getContext(),"loaded!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"불러오기 성공",Toast.LENGTH_SHORT).show();
     }
 }

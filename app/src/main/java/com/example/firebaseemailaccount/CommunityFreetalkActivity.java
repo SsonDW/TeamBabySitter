@@ -69,7 +69,6 @@ public class CommunityFreetalkActivity extends Fragment {
             ListViewItem item = (ListViewItem) adapterView.getItemAtPosition(i);
             String title = item.getItemTitle();
             int id = item.getItemId();
-            Toast.makeText(getContext(), Integer.toString(id), Toast.LENGTH_SHORT).show();
 
             CommunityViewActivity fragment = CommunityViewActivity.newInstance(id);
 

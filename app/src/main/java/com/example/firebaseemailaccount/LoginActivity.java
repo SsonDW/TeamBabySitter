@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(@NonNull Call<UserAccount> call, @NonNull Response<UserAccount> response) {
                     if(response.isSuccessful()){
                         Intent intent = new Intent(LoginActivity.this, PageActivity.class);
+                        Toast.makeText(LoginActivity.this, "자동 로그인", Toast.LENGTH_SHORT).show();
                         startActivity(intent); // 화면 전환
                     }
                 }
@@ -80,17 +81,17 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("password", et_pwd.getText().toString());
                             editor.apply();
 
-                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, PageActivity.class);
                             startActivity(intent); // 화면 전환
                         } else {
-                            Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<UserAccount> call, @NonNull Throwable t) {
-                        Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

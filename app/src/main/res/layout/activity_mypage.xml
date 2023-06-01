@@ -139,12 +139,14 @@
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="411dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="#FFFFFFFF"
+        android:gravity="center"
         android:text="위치기반서비스 이용약관"
+        android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,8 +156,8 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="411dp"
-        android:layout_height="88dp"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
         android:layout_marginTop="384dp"
         android:layout_marginBottom="70dp"
         android:backgroundTint="#FFFFFFFF"
@@ -163,23 +165,28 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAlignment="center"
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="408dp"
-        android:layout_height="79dp"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
         android:layout_marginTop="70dp"
         android:layout_marginBottom="70dp"
         android:backgroundTint="#FFFFFFFF"
+        android:gravity="center"
         android:text="개인정보 처리방침"
+        android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/button5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button"
-        app:layout_constraintVertical_bias="0.736" />
+        app:layout_constraintVertical_bias="0.384" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

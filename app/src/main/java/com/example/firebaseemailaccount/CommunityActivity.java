@@ -51,9 +51,8 @@ public class CommunityActivity extends Fragment {
                 @Override
                 public void onResponse(Call<Community_model> call, Response<Community_model> response) {
                     if(response.isSuccessful()){
-                        Toast.makeText(getContext(), "Saved successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "게시글이 등록되었습니다", Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(getContext(), "Request failed", Toast.LENGTH_LONG).show();
                     }
 
                     // 게시글 업로드 직후 전체 게시글 list view로 화면 전환
@@ -61,7 +60,6 @@ public class CommunityActivity extends Fragment {
                 }
                 @Override
                 public void onFailure(Call<Community_model> call, Throwable t) {
-                    Toast.makeText(getContext(), "Request failed " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         });
