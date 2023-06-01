@@ -237,9 +237,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
                                     double totalRating = 0.0;
                                     int count = 0;
-                                    int info_count = 0; // 옵션 표시 배열 길이
                                     ArrayList<String> reviewData = new ArrayList<>();
-                                    String Info[] = new String[7]; // 옵션 표시 배열
+                                    String Info[] = new String[6]; // 옵션 표시 배열
+                                    for(int i = 0; i<Info.length; i++) {
+                                        Info[i] = "";
+                                    }
 
                                     // 모든 문서의 rating 값을 합산하고 문서 개수를 세기
                                     for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
@@ -248,32 +250,50 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                         totalRating += ratingDouble;
                                         count++;
                                         // 경사로, 아기식기등 옵션 사항 표시하기
-//                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasRamp"))) {
-//                                            Info[info_count++] = "경사로 ";
-//                                        }
-                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasAutomaticDoor"))) {
-                                            Info[info_count++] = "자동문 ";
+                                        int info_count = 0; // 옵션 표시 배열 길이
+                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasNursingRoom"))) {
+                                            Info[info_count++] = "수유실O, ";
+                                        } else {
+                                            Info[info_count++] = "수유실X, ";
                                         }
                                         if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasBabyChair"))) {
-                                            Info[info_count++] = "아기의자 ";
-                                        }
-                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasNursingRoom"))) {
-                                            Info[info_count++] = "수유실 ";
-                                        }
-                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasPlayRoom"))) {
-                                            Info[info_count++] = "놀이방 ";
+                                            Info[info_count++] = "아기의자O, ";
+                                        } else {
+                                            Info[info_count++] = "아기의자X, ";
                                         }
                                         if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasTableWare"))) {
-                                            Info[info_count] = "아기식기 ";
+                                            Info[info_count++] = "아기식기O";
+                                        } else {
+                                            Info[info_count++] = "아기식기X";
                                         }
+                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasAutomaticDoor"))) {
+                                            Info[info_count++] = "자동문O, ";
+                                        } else {
+                                            Info[info_count++] = "자동문X, ";
+                                        }
+                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasPlayRoom"))) {
+                                            Info[info_count++] = "놀이방O, ";
+                                        } else {
+                                            Info[info_count++] = "놀이방X, ";
+                                        }
+                                        if(Boolean.TRUE.equals(documentSnapshot.getBoolean("hasRamp"))) {
+                                            Info[info_count++] = "경사로O";
+                                        } else {
+                                            Info[info_count++] = "경사로X";
+                                        }
+
                                         StringBuilder InfoOption = new StringBuilder();
                                         for(int j = 0; j<info_count; j++) {
                                             InfoOption.append(Info[j]);
+                                            if(j == 2) {
+                                                InfoOption.append("\n");
+                                            }
                                         }
+                                        InfoOption.append("\n\n");
+                                        InfoOption.append("<리뷰내용>\n");
+                                        InfoOption.append(documentSnapshot.getString("reviewText"));
+                                        InfoOption.append("\n");
                                         reviewData.add(InfoOption.toString());
-                                        // reviewText 리스트뷰에 추가하기
-                                        String temp = documentSnapshot.getString("reviewText");
-                                        reviewData.add(temp);
                                     }
 
                                     // 평균 계산

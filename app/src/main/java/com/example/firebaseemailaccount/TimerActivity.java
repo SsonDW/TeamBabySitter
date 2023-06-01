@@ -21,6 +21,7 @@ public class TimerActivity extends AppCompatActivity {
     private static final int NOTIFICATION_ID = 1;
 
     private EditText editTextTimer;
+    private Button buttonStart;
     private CountDownTimer countDownTimer;
     private TextView textViewTimer;
     @SuppressLint("MissingInflatedId")
@@ -30,7 +31,7 @@ public class TimerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timer);
         textViewTimer = findViewById(R.id.textViewTimer);
         editTextTimer = findViewById(R.id.editTextTimer);
-        Button buttonStart = findViewById(R.id.buttonStart);
+        buttonStart = findViewById(R.id.buttonStart);
 
         buttonStart.setOnClickListener(v -> {
             String input = editTextTimer.getText().toString();
@@ -55,7 +56,7 @@ public class TimerActivity extends AppCompatActivity {
                 long seconds = millisUntilFinished / 1000 % 60;
                 long milliseconds = millisUntilFinished % 1000;
 
-                @SuppressLint("DefaultLocale") String timeLeftFormatted = String.format("%02d:%02d:%03d", minutes, seconds, milliseconds);
+                String timeLeftFormatted = String.format("%02d:%02d:%03d", minutes, seconds, milliseconds);
 
                 textViewTimer.setText(timeLeftFormatted);
                 showNotification(timeLeftFormatted);
@@ -71,6 +72,7 @@ public class TimerActivity extends AppCompatActivity {
 
     private void showNotification(String content) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.logo)
                 .setContentTitle("Timer")
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

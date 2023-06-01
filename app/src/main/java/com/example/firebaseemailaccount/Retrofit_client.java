@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Retrofit_client {
     // private static final String BASE_URL = "";
     // login activity에서 사용하기 위해 public으로 수정
-    public static final String BASE_URL = "https://7576-175-192-187-183.ngrok-free.app";
+    public static final String BASE_URL = "https://e6f5-121-131-237-41.ngrok-free.app";
 
     private static final Gson gson = new GsonBuilder().setLenient().create();
 
