@@ -24,18 +24,18 @@ GoingBaby는 영유아와 함께하는 외출을 돕기 위한 지도 기반 정
 ## **[작품 시연 모습]**
 |                로그인 및 자동로그인                |             메인 홈(지도)             |            지도(제보 및 리뷰)            |
 |:-------------------------------------:|:-------------------------------------------------:|:-----------------------------------------------:|
-|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/74c48af2-a014-4a75-a029-280c1050d9dc" width="200" height="400"/>|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/3751b2e4-0d07-40f0-a6b7-3a7dc2b31c50" width="200" height="400"/>|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/de0b011f-af4f-47ab-8da8-5a1d7132457b" width="200" height="400"/>|
+|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/74c48af2-a014-4a75-a029-280c1050d9dc" width="200" height="400"/>|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/8f5755ac-b913-48b5-8baa-135008ebfb99" width="200" height="400"/>|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/de0b011f-af4f-47ab-8da8-5a1d7132457b" width="200" height="400"/>|
 |                커뮤니티                |             육아 타임테이블             |            마이페이지            |
-|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/41fd530c-ab69-4849-a651-29765717ceae" width="200" height="400"/>|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/44d0ad3f-82c1-461e-b92e-1aaae54ec85b" width="200" height="400"/>|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/2320cac4-b370-4bcf-ad77-ea62f9b512d4" width="200" height="400"/>|
-
-
-
+|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/41fd530c-ab69-4849-a651-29765717ceae" width="200" height="400"/>|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/f14b941f-4938-4dcc-8ede-4c24bd73cab0" width="200" height="400"/>|<img src="https://github.com/SsonDW/TeamBabysitter/assets/77429312/2320cac4-b370-4bcf-ad77-ea62f9b512d4" width="200" height="400"/>|
 
 ## **[개발 도구]**
 * 개발 환경: Microsoft Windows 10, macOS, Android
 * 라이브러리 & 프레임워크: Google Firebase, Naver Map API, Django
 * 개발 도구: Android Studio, SQLite, Visual Studio Code
 * 개발 언어: Java, Python
+
+## **[참고 코드]**
+https://github.com/tlaabs/TimetableView
 
 ## **[서버]**
 GoingBaby 서버
