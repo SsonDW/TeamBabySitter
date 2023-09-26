@@ -9,11 +9,12 @@
     app:umanoDragView="@id/slide_layout"
     app:umanoPanelHeight="210dp">
 
+
     <RelativeLayout
         android:id="@+id/back_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        >
         <com.naver.maps.map.MapView
             android:id="@+id/map"
             android:name="com.naver.maps.map.MapFragment"
@@ -21,6 +22,61 @@
             android:layout_height="match_parent"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
+        <RelativeLayout
+            android:id="@+id/search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="장소 검색"
+                android:backgroundTint="@color/white"/>
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/searchEditText"
+                android:text="검색" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="16dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/btnFilter1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="유아식기"
+
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/btnFilter2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="놀이방"
+
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/btnFilter3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="경사로"
+
+                    android:layout_marginEnd="8dp" />
+            </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -140,7 +196,7 @@
                 android:layout_gravity="center_horizontal" />
 
 
-            <!-- 리스트뷰 -->
+
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
